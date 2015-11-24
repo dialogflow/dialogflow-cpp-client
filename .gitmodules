@@ -1,0 +1,3 @@
+[submodule "thirdparty/json-parser"]
+	path = thirdparty/json-parser
+	url = git@github.com:udp/json-parser.git
