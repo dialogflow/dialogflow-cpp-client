@@ -22,18 +22,25 @@ namespace ai {
         public:
             const std::string identifier;
             const std::time_t timestamp;
-            const Result result;
         private:
-            QueryResponse(const std::string identifier, const std::time_t timestamp, const Result result);
+            QueryResponse(const std::string identifier, const std::time_t timestamp);
+
+            friend class QueryRequest;
         };
 
-        class QueryRequest: public Request {
-        private:
-            QueryRequest(const QueryRequest&);
+        class QueryRequest: public Request<QueryResponse> {
         public:
             const std::string language;
-            virtual void perform() override;
-            QueryRequest(Credentials credentials);
+            const std::string query;
+
+            virtual QueryResponse perform() override;
+
+            QueryRequest(std::string query, std::string language, Credentials credentials);
+            virtual ~QueryRequest();
+        private:
+            QueryRequest(const QueryRequest&);
+        protected:
+            virtual QueryResponse fromResponse(std::string response) override;
         };
     }
 }

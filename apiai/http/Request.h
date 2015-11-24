@@ -3,28 +3,43 @@
 
 #include <string>
 #include <future>
+#include <sstream>
+
 #include "../Credentials.h"
+#include "HTTPrequest.h"
 
 
 namespace ai {
-class Request
+template <typename T> class Request
 {
 private:
     Request(const Request&);
     Credentials credentials;
-
-    class RequestImpl;
-    std::unique_ptr<RequestImpl> impl;
 protected:
-    virtual void perform();
-
+    HTTPRequest httpRequest;
+    virtual T fromResponse(std::string response) = 0;
 public:
-    Request(Credentials credentials);
+    Request(Credentials credentials): credentials(credentials), httpRequest("https://api.api.ai/v1/query?v=20150910")
+    {
+        std::ostringstream authorization;
 
-    std::future<int> async_perform();
+        authorization << "Bearer ";
+        authorization << credentials.getClientAccessToken();
 
-    virtual ~Request();
+        httpRequest.
+                addHeader("Authorization", authorization.str())
+                .addHeader("ocp-apim-subscription-key", credentials.getSubscribtionKey());
+    }
+
+    virtual T perform() {
+        auto response = httpRequest.perform();
+        return this->fromResponse(response);
+    }
+
+    virtual ~Request() {}
 };
 }
+
+//#include "Request.cpp"
 
 #endif // REQUEST_H
