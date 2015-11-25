@@ -134,6 +134,11 @@ namespace ai {
                         // if fulfillment not exist then ignore it
                     }
 
+//                    std::map<std::string, Element> qwe;
+
+//                    auto q = new ObjectElement(qwe);
+//                    auto a = new ArrayElement(std::vector<Element>());
+
                     std::shared_ptr<Metadata> metadata_pointer(new Metadata());
 
                     try {
@@ -181,6 +186,5 @@ namespace ai {
         {
             return intentName;
         }
-
     }
 }

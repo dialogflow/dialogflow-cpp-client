@@ -3,11 +3,23 @@
 
 #include <string>
 #include <ctime>
+#include <vector>
+#include <map>
 
 #include "../http/Request.h"
+#include "../JSON/JSONException.h"
 
 namespace ai {
     namespace Query {
+        class Context {
+        public:
+        private:
+            const std::string name;
+            const std::shared_ptr<int> lifespan;
+
+            friend class QueryRequest;
+        };
+
         class Metadata {
         public:
             std::shared_ptr<std::string> getIntentId() const;
