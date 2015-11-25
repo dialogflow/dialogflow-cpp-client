@@ -14,6 +14,8 @@
 #include "query/Query.h"
 #include "Exception.h"
 
+#include "JSON/JSONException.h"
+
 using namespace std;
 
 int main(int argc, char *argv[]) {
@@ -25,7 +27,7 @@ int main(int argc, char *argv[]) {
 
     auto response = request.perform();
 
-    std::cout << "identifier:" << response.identifier << std::endl;
+    std::cout << "identifier: " << response.result.getFulfillment()->getSpeech() << std::endl;
 
     ai::AI::global_clean();
 

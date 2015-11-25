@@ -23,6 +23,6 @@ endif(CURL_FOUND)
 
 include_directories(thirdparty/cJSON)
 
-add_library(json thirdparty/cJSON/cJSON.c)
+add_library(cJson thirdparty/cJSON/cJSON.c)
 
 add_subdirectory(apiai)
