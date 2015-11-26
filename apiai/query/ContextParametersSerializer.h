@@ -13,7 +13,7 @@ namespace ai{
             class ContextParametersSerializer
             {
             public:
-                static std::map<std::string, Element> serialize(cJSON *source);
+                static const std::map<std::string, Element> serialize(cJSON *source);
             private:
                 static Element serialize_element(cJSON *json_element);
                 ContextParametersSerializer();

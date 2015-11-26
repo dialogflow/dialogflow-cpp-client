@@ -2,6 +2,9 @@
 
 #include <iostream>
 
+#include "Context.h"
+#include "ContextParametersSerializer.h"
+
 #include "cJSON.h"
 #include "cJSONUtils.h"
 #include "../JSON/JSONException.h"
@@ -35,8 +38,9 @@ namespace ai {
                        const std::string resolvedQuery,
                        const std::shared_ptr<std::string> action,
                        const std::shared_ptr<Fulfillment> fulfillment,
-                       const Metadata metadata):
-            source(source), resolvedQuery(resolvedQuery), action(action), fulfillment(fulfillment), metadata(metadata)
+                       const Metadata metadata,
+                       const std::vector<ai::query::response::Context> contexts):
+            source(source), resolvedQuery(resolvedQuery), action(action), fulfillment(fulfillment), metadata(metadata), contexts(contexts)
         {
 
         }
@@ -156,7 +160,36 @@ namespace ai {
                         // if one field of metadata not exist then ignore this fields
                     }
 
-                    auto result = Result(source, resolvedQuery, action_pointer, fulfillment_pointer, *metadata_pointer.get());
+                    std::vector <ai::query::response::Context> contexts;
+
+                    try {
+                        auto contexts_array_json = jsonArray(result_json, "contexts");
+
+                        for (int i = 0; i < cJSON_GetArraySize(contexts_array_json); i++) {
+                            auto context_json = cJSON_GetArrayItem(contexts_array_json, i);
+
+                            auto name = jsonString(context_json, "name");
+                            auto lifespan = -1;
+
+                            try {
+                                lifespan = jsonInt(context_json, "lifespan");
+                            } catch(...) {}
+
+                            std::map<std::string, ai::query::response::Element> params;
+
+                            try {
+                                auto json_params = jsonObject(context_json, "parameters");
+
+                                params = ai::query::response::ContextParametersSerializer::serialize(json_params);
+                            } catch(...){}
+
+                            contexts.push_back(ai::query::response::Context(name, lifespan, params));
+                        }
+                    } catch (...) {
+                        throw;
+                    }
+
+                    auto result = Result(source, resolvedQuery, action_pointer, fulfillment_pointer, *metadata_pointer.get(), contexts);
 
                     return QueryResponse(identifier, timestamp, result);
                 } catch(...) {

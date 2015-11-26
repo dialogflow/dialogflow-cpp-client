@@ -6,19 +6,21 @@
 #include <vector>
 #include <map>
 
+#include "Context.h"
+
 #include "../http/Request.h"
 #include "../JSON/JSONException.h"
 
 namespace ai {
     namespace Query {
-        class Context {
-        public:
-        private:
-            const std::string name;
-            const std::shared_ptr<int> lifespan;
+//        class Context {
+//        public:
+//        private:
+//            const std::string name;
+//            const std::shared_ptr<int> lifespan;
 
-            friend class QueryRequest;
-        };
+//            friend class QueryRequest;
+//        };
 
         class Metadata {
         public:
@@ -66,12 +68,15 @@ namespace ai {
             const std::shared_ptr<std::string> action;
             const std::shared_ptr<Fulfillment> fulfillment;
             const Metadata metadata;
+            const std::vector<ai::query::response::Context> contexts;
 
             Result(const std::string source,
                    const std::string resolvedQuery,
                    const std::shared_ptr<std::string> action,
                    const std::shared_ptr<Fulfillment> fulfillment,
-                   const Metadata metadata);
+                   const Metadata metadata,
+                   const std::vector<ai::query::response::Context> contexts);
+
             friend class QueryRequest;
         };
 

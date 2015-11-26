@@ -11,6 +11,15 @@ cJSON *jsonObject(cJSON *object, const char *key) {
     return other;
 }
 
+cJSON *jsonArray(cJSON *object, const char *key) {
+    auto other = cJSON_GetObjectItem(object, key);
+    if (other->type != cJSON_Array) {
+        throw ai::JSONException::TypeMismatch(key, "Array");
+    }
+
+    return other;
+}
+
 int jsonInt(cJSON *object, const char *key) {
     auto other = jsonObject(object, key);
 

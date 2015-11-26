@@ -5,6 +5,7 @@
 #include <cJSON.h>
 
 cJSON *jsonObject(cJSON *object, const char *key);
+cJSON *jsonArray(cJSON *object, const char *key);
 
 int jsonInt(cJSON *object, const char *key);
 int jsonDouble(cJSON *object, const char *key);
