@@ -23,11 +23,13 @@ int main(int argc, char *argv[]) {
 
     auto credentials = ai::Credentials("3485a96fb27744db83e78b8c4bc9e7b7", "cb9693af-85ce-4fbf-844a-5563722fc27f");
 
-    ai::Query::QueryRequest request("Hello", "en", credentials);
+    ai::query::QueryRequest request("Hello", "en", credentials);
 
     auto response = request.perform();
 
-    std::cout << "identifier: " << response.result.getFulfillment()->getSpeech() << std::endl;
+//    std::cout << "identifier: " << response.result.getFulfillment()->getSpeech() << std::endl;
+
+    std::cout << response << std::endl;
 
     ai::AI::global_clean();
 

@@ -1,7 +1,7 @@
 #ifndef CONTEXT_H
 #define CONTEXT_H
 
-#include "../JSON/JSONException.h"
+#include "../../JSON/JSONException.h"
 
 #include <string>
 #include <map>
@@ -72,22 +72,6 @@ namespace ai{
                 virtual double asDouble() const override { return this->getValue(); }
                 virtual int asInteger() const override { return (int)this->getValue(); }
             };
-
-//            class DoubleElement: public ValueContainer<double>, public Element {
-//            public:
-//                DoubleElement(double value): ValueContainer(value) {}
-
-//                virtual bool isDouble() override { return true; }
-//                virtual double asDouble() const override { return this->getValue(); }
-//            };
-
-//            class IntegerElement: public ValueContainer<int>, public Element {
-//            public:
-//                IntegerElement(int value): ValueContainer(value) {}
-
-//                virtual bool isInteger() override { return true; }
-//                virtual int asInteger() const override { return this->getValue(); }
-//            };
 
             class BoolElement: public ValueContainer<bool>, public Element {
             public:

@@ -1,7 +1,7 @@
 #ifndef CONTEXTPARAMETERSSERIALIZER_H
 #define CONTEXTPARAMETERSSERIALIZER_H
 
-#include "Context.h"
+#include "response/Context.h"
 #include "cJSON.h"
 
 #include <string>
