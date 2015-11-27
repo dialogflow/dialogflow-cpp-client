@@ -1,4 +1,4 @@
-#include "QueryResponse.h"
+#include "Response.h"
 
 #include <iostream>
 
@@ -11,20 +11,18 @@ using namespace ai;
         using namespace response;
     using namespace utils;
 
-QueryResponse::QueryResponse(const std::string identifier, const std::string timestamp, const Result result):
+Response::Response(const std::string identifier, const std::string timestamp, const Result result):
     identifier(identifier), timestamp(timestamp), result(result)
 {
 
 }
 
-QueryResponse::~QueryResponse() {}
-
-
+Response::~Response() {}
 
 namespace ai {
     namespace query {
         namespace response {
-            std::ostream& operator << (std::ostream& os, const QueryResponse& query_response) {
+            std::ostream& operator << (std::ostream& os, const Response& query_response) {
                 os << "QueryResponse: " << std::endl;
                 os << "    " << "identifier: " << query_response.identifier << std::endl;
                 os << "    " << "timestamp: " << query_response.timestamp << std::endl;

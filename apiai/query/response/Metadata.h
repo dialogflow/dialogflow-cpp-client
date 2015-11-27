@@ -23,7 +23,10 @@ namespace ai {
                 const std::shared_ptr<std::string> intentName;
 
                 friend class ai::query::QueryRequest;
+                friend std::ostream& operator << (std::ostream& os, const Metadata& metadata);
             };
+
+            std::ostream& operator << (std::ostream& os, const Metadata& metadata);
         }
     }
 }

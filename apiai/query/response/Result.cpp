@@ -1,5 +1,7 @@
 #include "Result.h"
 
+#include "indent_stream.h"
+
 #include <memory>
 #include <string>
 #include <ostream>
@@ -20,6 +22,11 @@ Result::Result(const std::string source,
 
 Result::~Result() {
 
+}
+
+std::vector<Context> Result::getContexts() const
+{
+    return contexts;
 }
 
 Metadata Result::getMetadata() const
@@ -64,6 +71,38 @@ namespace ai {
                 }
 
                 os << std::endl;
+
+                os << "fufillment: ";
+
+                if (result.fulfillment.get()) {
+                    ai::utils::indent_stream indent_stream(os);
+                    indent_stream << *result.fulfillment.get();
+                } else {
+                    os << "NULL";
+                }
+
+                os << std::endl;
+
+                os << "metadata: ";
+                {
+                    ai::utils::indent_stream indent_stream(os);
+                    indent_stream << result.metadata;
+                }
+
+                os << "contexts: [" << endl;
+
+                ai::utils::indent_stream indent_stream(os);
+                for (auto context: result.contexts) {
+                    indent_stream << "{" << endl;
+
+                    ostream& qwe = indent_stream;
+                    ai::utils::indent_stream indent_stream2(qwe);
+
+                    indent_stream2 << context;
+                    indent_stream << "}, " << endl;
+                }
+
+                os << "]";
 
                 return os;
             }

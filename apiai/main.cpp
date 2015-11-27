@@ -21,9 +21,9 @@ using namespace std;
 int main(int argc, char *argv[]) {
     ai::AI::global_init();
 
-    auto credentials = ai::Credentials("3485a96fb27744db83e78b8c4bc9e7b7", "cb9693af-85ce-4fbf-844a-5563722fc27f");
+    auto credentials = ai::Credentials("ff98c090685f484caaffada53cdce7b3", "4c91a8e5-275f-4bf0-8f94-befa78ef92cd ");
 
-    ai::query::QueryRequest request("Hello", "en", credentials);
+    ai::query::QueryRequest request("HelloManyContexts", "en", credentials);
 
     auto response = request.perform();
 

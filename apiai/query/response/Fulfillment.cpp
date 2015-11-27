@@ -1,5 +1,6 @@
 #include "Fulfillment.h"
 
+#include <ostream>
 #include <string>
 
 using namespace std;
@@ -17,3 +18,16 @@ std::string Fulfillment::getSpeech() const
 
 
 Fulfillment::~Fulfillment() {}
+
+namespace ai {
+    namespace query {
+        namespace response {
+            std::ostream& operator << (std::ostream& os, const Fulfillment& fulfillment) {
+                os << "Fulfillment:" << endl;
+                os << "    " << "speech: " << fulfillment.speech;
+
+                return os;
+            }
+        }
+    }
+}

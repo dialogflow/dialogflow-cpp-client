@@ -19,7 +19,10 @@ namespace ai {
                 const std::string speech;
 
                 friend class ai::query::QueryRequest;
+                friend std::ostream& operator << (std::ostream& os, const Fulfillment& fulfillment);
             };
+
+            std::ostream& operator << (std::ostream& os, const Fulfillment& fulfillment);
         }
     }
 }

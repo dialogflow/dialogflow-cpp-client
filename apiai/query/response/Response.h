@@ -8,24 +8,24 @@ namespace ai {
         class QueryRequest;
 
         namespace response {
-            class QueryResponse
+            class Response
             {
             public:
                 const std::string identifier;
                 const std::string timestamp;
                 const Result result;
 
-                virtual ~QueryResponse();
+                virtual ~Response();
 
-                friend std::ostream& operator << (std::ostream& os, const QueryResponse& query_response);
+                friend std::ostream& operator << (std::ostream& os, const Response& query_response);
 
                 friend class ai::query::QueryRequest;
 
             private:
-                QueryResponse(const std::string identifier, const std::string timestamp, const Result result);
+                Response(const std::string identifier, const std::string timestamp, const Result result);
             };
 
-            std::ostream& operator << (std::ostream& os, const QueryResponse& query_response);
+            std::ostream& operator << (std::ostream& os, const Response& query_response);
         }
     }
 }

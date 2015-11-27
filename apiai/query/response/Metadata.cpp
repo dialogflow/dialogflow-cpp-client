@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <ostream>
 
 using namespace std;
 using namespace ai::query::response;
@@ -32,3 +33,34 @@ Metadata::~Metadata()
 
 }
 
+namespace ai {
+    namespace query {
+        namespace response {
+            std::ostream& operator << (std::ostream& os, const Metadata& metadata) {
+                os << "Metadata: " << endl;
+
+                os << "    " << "intentId: ";
+
+                if (metadata.intentId.get()) {
+                    os << *metadata.intentId.get();
+                } else {
+                    os << "NULL";
+                }
+
+                os << endl;
+
+                os << "    " << "intentName: ";
+
+                if (metadata.intentName.get()) {
+                    os << *metadata.intentName.get();
+                } else {
+                    os << "NULL";
+                }
+
+                os << endl;
+
+                return os;
+            }
+        }
+    }
+}

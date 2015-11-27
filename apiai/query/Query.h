@@ -6,26 +6,26 @@
 #include <vector>
 #include <map>
 
-#include "response/QueryResponse.h"
+#include "response/Response.h"
 
 #include "../http/Request.h"
 #include "../JSON/JSONException.h"
 
 namespace ai {
     namespace query {
-        class QueryRequest: public Request<response::QueryResponse> {
+        class QueryRequest: public Request<response::Response> {
         public:
             const std::string language;
             const std::string query;
 
-            virtual response::QueryResponse perform() override;
+            virtual response::Response perform() override;
 
             QueryRequest(std::string query, std::string language, Credentials credentials);
             virtual ~QueryRequest();
         private:
             QueryRequest(const QueryRequest&);
         protected:
-            virtual response::QueryResponse fromResponse(std::string response) override;
+            virtual response::Response fromResponse(std::string response) override;
         };
     }
 }

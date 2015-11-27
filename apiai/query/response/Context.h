@@ -12,12 +12,12 @@ namespace ai{
         namespace response {
             class Element {
             public:
-                virtual bool isObject();
-                virtual bool isNumber();
-                virtual bool isInteger();
-                virtual bool isArray();
-                virtual bool isBool();
-                virtual bool isString();
+                virtual bool isObject() const;
+                virtual bool isNumber() const;
+                virtual bool isInteger() const;
+                virtual bool isArray() const;
+                virtual bool isBool() const;
+                virtual bool isString() const;
 
                 virtual std::map<std::string, Element> asObject() const;
                 virtual double asDouble() const;
@@ -25,7 +25,11 @@ namespace ai{
                 virtual std::vector<Element> asArray() const;
                 virtual bool asBool() const;
                 virtual std::string asString() const;
+
+                friend std::ostream& operator << (std::ostream& os, const Element& element);
             };
+
+            std::ostream& operator << (std::ostream& os, const Element& element);
 
             template <typename T>
             class ValueContainer {
@@ -44,7 +48,7 @@ namespace ai{
             public:
                 ObjectElement(std::map<std::string, Element> value): ValueContainer(value) {}
 
-                virtual bool isObject() override { return true; }
+                virtual bool isObject() const override { return true; }
                 virtual std::map<std::string, Element> asObject() const override { return this->getValue(); }
             };
 
@@ -52,7 +56,7 @@ namespace ai{
             public:
                 ArrayElement(std::vector<Element> value): ValueContainer(value) {}
 
-                virtual bool isArray() override { return true; }
+                virtual bool isArray() const override { return true; }
                 virtual std::vector<Element> asArray() const override { return this->getValue(); }
             };
 
@@ -60,7 +64,7 @@ namespace ai{
             public:
                 StringElement(std::string value): ValueContainer(value) {}
 
-                virtual bool isString() override { return true; }
+                virtual bool isString() const override { return true; }
                 virtual std::string asString() const override { return this->getValue(); }
             };
 
@@ -68,7 +72,7 @@ namespace ai{
             public:
                 NumberElement(double value): ValueContainer(value) {}
 
-                virtual bool isNumber() override { return true; }
+                virtual bool isNumber() const override { return true; }
                 virtual double asDouble() const override { return this->getValue(); }
                 virtual int asInteger() const override { return (int)this->getValue(); }
             };
@@ -77,7 +81,7 @@ namespace ai{
             public:
                 BoolElement(bool value): ValueContainer(value) {}
 
-                virtual bool isBool() override { return true; }
+                virtual bool isBool() const override { return true; }
                 virtual bool asBool() const override { return this->getValue(); }
             };
 
@@ -93,7 +97,11 @@ namespace ai{
                 const std::string name;
                 const int lifespan;
                 const std::map<std::string, Element> parameters;
+
+                friend std::ostream& operator << (std::ostream& os, const Context& context);
             };
+
+            std::ostream& operator << (std::ostream& os, const Context& context);
         }
     }
 }

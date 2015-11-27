@@ -19,7 +19,7 @@ QueryRequest::QueryRequest(std::string query, std::string language, Credentials 
             .addHeader("Transfer-Encoding", "chunked");
 }
 
-QueryResponse QueryRequest::perform() {
+Response QueryRequest::perform() {
     cJSON *root = cJSON_CreateObject();
 
     cJSON_AddItemToObject(root, "query", cJSON_CreateString(this->query.c_str()));
@@ -35,7 +35,7 @@ QueryResponse QueryRequest::perform() {
     return Request::perform();
 }
 
-QueryResponse QueryRequest::fromResponse(std::string response) {
+Response QueryRequest::fromResponse(std::string response) {
     std::cout << response << std::endl;
 
     cJSON *root = cJSON_Parse(response.c_str());
@@ -122,7 +122,7 @@ QueryResponse QueryRequest::fromResponse(std::string response) {
 
             auto result = Result(source, resolvedQuery, action_pointer, fulfillment_pointer, *metadata_pointer.get(), contexts);
 
-            return QueryResponse(identifier, timestamp, result);
+            return Response(identifier, timestamp, result);
         } catch(...) {
             cJSON_Delete(root);
             throw;

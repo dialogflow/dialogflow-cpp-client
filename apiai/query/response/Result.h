@@ -19,10 +19,12 @@ namespace ai {
                 std::shared_ptr<std::string> getAction() const;
                 std::shared_ptr<Fulfillment> getFulfillment() const;
                 Metadata getMetadata() const;
+                std::vector<Context> getContexts() const;
 
                 virtual ~Result();
 
                 friend std::ostream& operator << (std::ostream& os, const Result& result);
+
 
             private:
                 const std::string source;
