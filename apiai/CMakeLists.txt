@@ -9,7 +9,7 @@ add_subdirectory(JSON)
 file (GLOB SRCS *.cpp *.h *.hpp *.c)
 
 file (GLOB QUERY_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-  query/*.cpp query/response/*.cpp)
+  query/*.cpp query/response/*.cpp query/request/*.cpp)
 
 set(SRCS ${SRCS} ${QUERY_SOURCES})
 

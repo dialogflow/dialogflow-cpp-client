@@ -9,7 +9,9 @@
 
 namespace ai {
     namespace query {
-        class QueryRequest;
+        namespace request {
+            class QueryRequest;
+        }
 
         namespace response {
             class Result {
@@ -24,7 +26,6 @@ namespace ai {
                 virtual ~Result();
 
                 friend std::ostream& operator << (std::ostream& os, const Result& result);
-
 
             private:
                 const std::string source;
@@ -41,7 +42,7 @@ namespace ai {
                        const Metadata metadata,
                        const std::vector<ai::query::response::Context> contexts);
 
-                friend class ai::query::QueryRequest;
+                friend class ai::query::request::QueryRequest;
             };
 
             std::ostream& operator << (std::ostream& os, const Result& result);

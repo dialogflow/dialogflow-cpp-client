@@ -1,9 +1,10 @@
-#include "Query.h"
+#include "QueryRequest.h"
 
 #include <iostream>
 #include <iomanip>
 
 #include "ContextParametersSerializer.h"
+#include "request/QueryTextSerialize.h"
 
 #include "cJSON.h"
 #include "cJSONUtils.h"
@@ -11,21 +12,39 @@
 
 using namespace std;
 using namespace ai::query;
+using namespace ai::query::request;
 using namespace ai::query::response;
 
-QueryRequest::QueryRequest(std::string query, std::string language, Credentials credentials): Request(credentials), language("en"), query(query) {
+QueryRequest::QueryRequest(std::shared_ptr<QueryText> query, std::string language, Credentials credentials): Request(credentials), language("en"), query(query) {
     httpRequest
             .addHeader("Content-Type", "application/json")
             .addHeader("Transfer-Encoding", "chunked");
 }
 
+std::string QueryRequest::getLanguage() const
+{
+    return language;
+}
+
+std::shared_ptr<QueryText> QueryRequest::getQuery() const
+{
+    return query;
+}
+
 Response QueryRequest::perform() {
     cJSON *root = cJSON_CreateObject();
 
-    cJSON_AddItemToObject(root, "query", cJSON_CreateString(this->query.c_str()));
+    shared_ptr<QueryTextSerialize> serialize_object(new QueryTextSerialize());
+    query->accept(*serialize_object);
+
+    cout << serialize_object->getQuery_element() << endl;
+
+    cJSON_AddItemToObject(root, "query", serialize_object->getQuery_element());
     cJSON_AddItemToObject(root, "lang", cJSON_CreateString(this->language.c_str()));
 
     auto json = cJSON_Print(root);
+
+    cout << json << endl;
 
     httpRequest.setBody(json);
     free(json);

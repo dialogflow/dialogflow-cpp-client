@@ -5,7 +5,9 @@
 
 namespace ai {
     namespace query {
-        class QueryRequest;
+        namespace request {
+            class QueryRequest;
+        }
 
         namespace response {
             class Fulfillment {
@@ -18,7 +20,7 @@ namespace ai {
 
                 const std::string speech;
 
-                friend class ai::query::QueryRequest;
+                friend class ai::query::request::QueryRequest;
                 friend std::ostream& operator << (std::ostream& os, const Fulfillment& fulfillment);
             };
 
