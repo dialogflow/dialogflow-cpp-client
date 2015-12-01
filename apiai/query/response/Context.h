@@ -14,7 +14,6 @@ namespace ai{
             public:
                 virtual bool isObject() const;
                 virtual bool isNumber() const;
-                virtual bool isInteger() const;
                 virtual bool isArray() const;
                 virtual bool isBool() const;
                 virtual bool isString() const;

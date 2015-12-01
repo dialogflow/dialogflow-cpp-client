@@ -12,21 +12,26 @@
 #include "../http/Request.h"
 #include "../JSON/JSONException.h"
 
+#include "request/Parameters.h"
+
 namespace ai {
     namespace query {
         namespace request {
+
             class QueryRequest: public Request<ai::query::response::Response> {
             public:
                 std::string getLanguage() const;
-                std::shared_ptr<QueryText> getQuery() const;
+                Parameters getParameters() const;
 
-                virtual response::Response perform() override;
+//                virtual response::Response perform() override;
 
-                QueryRequest(std::shared_ptr<QueryText> query, std::string language, Credentials credentials);
+                QueryRequest(std::string language, Credentials credentials, Parameters parameters);
                 virtual ~QueryRequest();
+
             private:
                 QueryRequest(const QueryRequest&);
 
+                Parameters parameters;
                 std::string language;
                 std::shared_ptr<QueryText> query;
             protected:

@@ -27,9 +27,9 @@ int main(int argc, char *argv[]) {
 
     auto credentials = ai::Credentials("ff98c090685f484caaffada53cdce7b3", "4c91a8e5-275f-4bf0-8f94-befa78ef92cd ");
 
-    auto request = std::shared_ptr<QueryRequest>(new QueryRequest(QueryText::One("Hello"), "en", credentials));
+//    auto request = std::shared_ptr<QueryRequest>(new QueryRequest(QueryText::One("Hello"), "en", credentials));
 
-    auto response = request->perform();
+//    auto response = request->perform();
 
 //    ai::query::QueryRequest request("HelloManyContexts", "en", credentials);
 

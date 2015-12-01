@@ -1,6 +1,7 @@
 cmake_minimum_required ( VERSION 3.0 )
 
 project ( demo )
+SET(CMAKE_BUILD_TYPE Debug)
 
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)

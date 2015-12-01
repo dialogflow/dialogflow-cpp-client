@@ -15,7 +15,15 @@ using namespace ai::query;
 using namespace ai::query::request;
 using namespace ai::query::response;
 
-QueryRequest::QueryRequest(std::shared_ptr<QueryText> query, std::string language, Credentials credentials): Request(credentials), language("en"), query(query) {
+QueryRequest::QueryRequest(std::string language,
+                           Credentials credentials,
+                           Parameters parameters):
+    Request(credentials), language(language), parameters(parameters)
+{
+    if (language.size() == 0) {
+        throw std::invalid_argument("Language cannot be zero size");
+    }
+
     httpRequest
             .addHeader("Content-Type", "application/json")
             .addHeader("Transfer-Encoding", "chunked");
@@ -26,33 +34,28 @@ std::string QueryRequest::getLanguage() const
     return language;
 }
 
-std::shared_ptr<QueryText> QueryRequest::getQuery() const
-{
-    return query;
-}
+//Response QueryRequest::perform() {
+//    cJSON *root = cJSON_CreateObject();
 
-Response QueryRequest::perform() {
-    cJSON *root = cJSON_CreateObject();
+//    shared_ptr<QueryTextSerialize> serialize_object(new QueryTextSerialize());
+//    query->accept(*serialize_object);
 
-    shared_ptr<QueryTextSerialize> serialize_object(new QueryTextSerialize());
-    query->accept(*serialize_object);
+//    cout << serialize_object->getQuery_element() << endl;
 
-    cout << serialize_object->getQuery_element() << endl;
+//    cJSON_AddItemToObject(root, "query", serialize_object->getQuery_element());
+//    cJSON_AddItemToObject(root, "lang", cJSON_CreateString(this->language.c_str()));
 
-    cJSON_AddItemToObject(root, "query", serialize_object->getQuery_element());
-    cJSON_AddItemToObject(root, "lang", cJSON_CreateString(this->language.c_str()));
+//    auto json = cJSON_Print(root);
 
-    auto json = cJSON_Print(root);
+//    cout << json << endl;
 
-    cout << json << endl;
+//    httpRequest.setBody(json);
+//    free(json);
 
-    httpRequest.setBody(json);
-    free(json);
+//    cJSON_Delete(root);
 
-    cJSON_Delete(root);
-
-    return Request::perform();
-}
+//    return Request::perform();
+//}
 
 Response QueryRequest::fromResponse(std::string response) {
     std::cout << response << std::endl;
@@ -153,4 +156,9 @@ Response QueryRequest::fromResponse(std::string response) {
 
 QueryRequest::~QueryRequest() {
 
+}
+
+Parameters QueryRequest::getParameters() const
+{
+    return parameters;
 }
