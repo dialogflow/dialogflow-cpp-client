@@ -20,6 +20,8 @@ namespace ai {
 
             class QueryRequest: public Request<ai::query::response::Response> {
             public:
+                // TODO: It would be nice to decorate the getters as shown below.
+//                const std::string &getLanguage() const;
                 std::string getLanguage() const;
                 Parameters getParameters() const;
 
@@ -27,6 +29,7 @@ namespace ai {
                 virtual ~QueryRequest();
 
             private:
+                // TODO: It's also necessary to disallow assignment. It's better use DISALLOW_COPY_AND_ASSIGN by Google.
                 QueryRequest(const QueryRequest&);
 
                 Parameters parameters;
