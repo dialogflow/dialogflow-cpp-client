@@ -1,9 +1,9 @@
 #ifndef RESULT_H
 #define RESULT_H
 
-#include "Metadata.h"
-#include "Fulfillment.h"
-#include "Context.h"
+#include "Metadata.h" // TODO: Shouldn't we use forward declaration instead?
+#include "Fulfillment.h" // TODO: Shouldn't we use forward declaration instead?
+#include "Context.h" // TODO: Shouldn't we use forward declaration instead?
 
 #include <vector>
 

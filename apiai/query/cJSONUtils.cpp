@@ -30,6 +30,7 @@ int jsonInt(cJSON *object, const char *key) {
     return other->valueint;
 }
 
+// FIXME: The return type is expected to be 'double'?
 int jsonDouble(cJSON *object, const char *key) {
     auto other = jsonObject(object, key);
 
