@@ -35,6 +35,8 @@ std::string QueryRequest::getLanguage() const
 }
 
 Response QueryRequest::fromResponse(std::string response) {
+    cout << response << endl;
+
     cJSON *root = cJSON_Parse(response.c_str());
 
     if (root) {

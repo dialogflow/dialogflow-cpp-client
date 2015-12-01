@@ -37,11 +37,8 @@ private:
 
     static uint write_callback(char *in, uint size, uint nmemb, std::string *response)
     {
-      uint r = size * nmemb;
-
-      response->append(in);
-
-      return r;
+      response->append(in, size * nmemb);
+      return size * nmemb;
     }
 
     CURL *curl;
@@ -89,6 +86,9 @@ public:
             curl_easy_setopt(curl, CURLOPT_READFUNCTION, read_callback);
             curl_easy_setopt(curl, CURLOPT_READDATA, &upload);
         }
+
+//        curl_easy_setopt(curl, CURLOPT_CONV_FROM_NETWORK_FUNCTION, NULL);
+//        curl_easy_setopt(curl, CURLOPT_ENCODING, "gzip, deflate");
 
         struct curl_slist *curl_headers = NULL;
 

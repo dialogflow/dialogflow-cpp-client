@@ -7,7 +7,7 @@ Parameters::Parameters(std::string sessionId,
                        bool resetContexts,
                        std::shared_ptr<std::string> timeZone,
                        std::vector<std::string> contexts,
-                       std::vector<std::string> entities
+                       std::vector<Entity> entities
                        ):
     sessionId(sessionId), resetContexts(resetContexts), timeZone(timeZone), contexts(contexts), entities(entities)
 {
@@ -34,9 +34,34 @@ Parameters& Parameters::addContext(std::string context)
     return *this;
 }
 
-Parameters& Parameters::addEntity(std::string entity)
+Parameters& Parameters::addEntity(Entity entity)
 {
     this->entities.push_back(entity);
     return *this;
+}
+
+bool Parameters::getResetContexts() const
+{
+    return resetContexts;
+}
+
+std::string Parameters::getSessionId() const
+{
+    return sessionId;
+}
+
+std::shared_ptr<std::string> Parameters::getTimeZone() const
+{
+    return timeZone;
+}
+
+std::vector<std::string> Parameters::getContexts() const
+{
+    return contexts;
+}
+
+std::vector<Entity> Parameters::getEntities() const
+{
+    return entities;
 }
 
