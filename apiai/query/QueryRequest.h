@@ -23,8 +23,6 @@ namespace ai {
                 std::string getLanguage() const;
                 Parameters getParameters() const;
 
-//                virtual response::Response perform() override;
-
                 QueryRequest(std::string language, Credentials credentials, Parameters parameters);
                 virtual ~QueryRequest();
 

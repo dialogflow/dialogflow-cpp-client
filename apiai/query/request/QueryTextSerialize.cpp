@@ -18,8 +18,6 @@ void QueryTextSerialize::visit(const QueryOne& ref)
     auto cstring = ref.query.c_str();
 
     query_element = cJSON_CreateString(cstring);
-
-    cout << "!!!!!!" << endl;
 }
 
 void QueryTextSerialize::visit(const QueryMultipleStrings& ref)

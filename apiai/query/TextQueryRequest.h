@@ -16,6 +16,9 @@ namespace ai {
                                  std::string language,
                                  Credentials credentials,
                                  Parameters parameters);
+
+                virtual response::Response perform() override;
+
                 std::shared_ptr<QueryText> getQuery() const;
             private:
                 TextQueryRequest(const QueryRequest&);

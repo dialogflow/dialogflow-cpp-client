@@ -27,8 +27,6 @@ private:
         if (avaiable > 0) {
             memcpy(ptr, upload->data.c_str() + upload->offset, avaiable);
 
-            std::cout << "READ:"<< upload->data << std::endl;
-
             upload->offset += avaiable;
 
             return avaiable;
