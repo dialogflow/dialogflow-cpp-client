@@ -1,6 +1,8 @@
 #ifndef QUERYTEXT_H
 #define QUERYTEXT_H
 
+#include <stdexcept>
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -38,7 +40,11 @@ namespace ai {
                     serizalize.visit(*this);
                 }
             private:
-                QueryOne(std::string query): query(query) {}
+                QueryOne(std::string query): query(query) {
+                    if (query.size() == 0) {
+                        throw std::invalid_argument("Query cannot be empty.");
+                    }
+                }
                 std::string query;
 
                 friend class QueryText;
@@ -51,7 +57,17 @@ namespace ai {
                     serizalize.visit(*this);
                 }
             private:
-                QueryMultipleStrings(std::vector<std::string> query): query(query) {}
+                QueryMultipleStrings(std::vector<std::string> query): query(query) {
+                    if (query.size() == 0) {
+                        throw std::invalid_argument("Query cannot be empty.");
+                    }
+
+                    for (auto& text: query) {
+                        if (text.size() == 0) {
+                            throw std::invalid_argument("Query cannot be empty.");
+                        }
+                    }
+                }
                 std::vector<std::string> query;
 
                 friend class QueryText;
@@ -64,7 +80,19 @@ namespace ai {
                     serizalize.visit(*this);
                 }
             private:
-                QueryMultipleVariants(std::vector<QueryVariant> query): query(query) {}
+                QueryMultipleVariants(std::vector<QueryVariant> query): query(query)
+                {
+                    if (query.size() == 0) {
+                        throw std::invalid_argument("Query cannot be empty.");
+                    }
+
+                    for (auto& variant: query) {
+                        if (variant.getText().size() == 0) {
+                            throw std::invalid_argument("Query cannot be empty.");
+                        }
+                    }
+                }
+
                 std::vector<QueryVariant> query;
 
                 friend class QueryText;

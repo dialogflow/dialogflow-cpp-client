@@ -7,7 +7,6 @@ using namespace ai::query::response;
 
 bool Element::isObject()    const   { return false; }
 bool Element::isNumber()    const   { return false; }
-bool Element::isInteger()   const   { return false; }
 bool Element::isArray()     const   { return false; }
 bool Element::isBool()      const   { return false; }
 bool Element::isString()    const   { return false; }
