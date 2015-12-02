@@ -6,6 +6,7 @@
 #include <string>
 
 #include "Entity.h"
+#include "RequestContext.h"
 
 namespace ai {
     namespace query {
@@ -16,26 +17,26 @@ namespace ai {
                 Parameters(std::string sessionId,
                            bool resetContexts = false,
                            std::shared_ptr<std::string> timeZone = nullptr,
-                           std::vector<std::string> contexts = {},
+                           std::vector<RequestContext> contexts = {},
                            std::vector<Entity> entities = {});
 
             public:
                 Parameters& setResetContexts(bool resetContexts);
                 Parameters& setTimeZone(std::shared_ptr<std::string> timeZone);
-                Parameters& addContext(std::string context);
+                Parameters& addContext(RequestContext context);
                 Parameters& addEntity(Entity entity);
 
                 bool getResetContexts() const;
                 std::string getSessionId() const;
                 std::shared_ptr<std::string> getTimeZone() const;
-                std::vector<std::string> getContexts() const;
+                std::vector<RequestContext> getContexts() const;
                 std::vector<Entity> getEntities() const;
 
             private:
                 bool resetContexts;
                 std::string sessionId;
                 std::shared_ptr<std::string> timeZone;
-                std::vector<std::string> contexts;
+                std::vector<RequestContext> contexts;
                 std::vector<Entity> entities;
             };
         }

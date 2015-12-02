@@ -29,6 +29,27 @@ Response TextQueryRequest::perform() {
     cJSON_AddItemToObject(root, "query", serialize_object->getQuery_element());
     cJSON_AddItemToObject(root, "lang", cJSON_CreateString(this->getLanguage().c_str()));
 
+    auto json_contexts = cJSON_CreateArray();
+    for (auto& context: this->getParameters().getContexts()) {
+        auto json_context = cJSON_CreateObject();
+        cJSON_AddItemToObject(json_context, "name", cJSON_CreateString(context.getName().c_str()));
+
+        auto json_parameters = cJSON_CreateObject();
+        for (auto& parameter: context.getParameters()) {
+            cJSON_AddItemToObject(json_parameters, parameter.first.c_str(), cJSON_CreateString(parameter.second.c_str()));
+        }
+
+        cJSON_AddItemToObject(json_context, "parameters", json_parameters);
+
+        if (context.getLifespan() >= 0) {
+            cJSON_AddNumberToObject(json_context, "lifepan", context.getLifespan());
+        }
+
+        cJSON_AddItemToArray(json_contexts, json_context);
+    }
+
+    cJSON_AddItemToObject(root, "contexts", json_contexts);
+
     auto json_entities = cJSON_CreateArray();
     for (auto& entity: this->getParameters().getEntities()) {
         auto json_entity = cJSON_CreateObject();

@@ -106,6 +106,7 @@ public:
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
 
+
         CURLcode perform_result = curl_easy_perform(curl);
 
         curl_slist_free_all(curl_headers);

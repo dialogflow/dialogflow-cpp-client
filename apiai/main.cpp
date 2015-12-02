@@ -21,8 +21,26 @@ using namespace std;
 
 using namespace ai::query::request;
 
+template<typename T>
+class Req
+{
+public:
+    virtual T foo() = 0;
+};
+
+class TextRequest: private Req<int> {
+public:
+    virtual int foo() override {
+        return 1;
+    };
+};
+
 int main(int argc, char *argv[]) {
     ai::AI::global_init();
+
+//    vector<int>::value_type;
+    auto q = TextRequest();
+
 
     auto credentials = ai::Credentials("ff98c090685f484caaffada53cdce7b3", "4c91a8e5-275f-4bf0-8f94-befa78ef92cd");
 
@@ -34,10 +52,11 @@ int main(int argc, char *argv[]) {
                     ).addEntry(
                         Entry("bifur").addSynonym("Bofur").addSynonym("Bombur")
                     )
+            ).addContext(
+                RequestContext("context")
             );
 
-//    auto request = std::shared_ptr<TextQueryRequest>(new TextQueryRequest(QueryText::One("hi nori"), "en", credentials, params));
-    auto request = std::shared_ptr<TextQueryRequest>(new TextQueryRequest(QueryText::One("Привет, Вася!"), "en", credentials, params));
+    auto request = std::shared_ptr<TextQueryRequest>(new TextQueryRequest(QueryText::One("hi nori"), "en", credentials, params));
 
     auto response = request->perform();
 
