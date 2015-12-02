@@ -25,7 +25,7 @@ QueryRequest::QueryRequest(std::string language,
     }
 
     httpRequest
-            .addHeader("Content-Type", "application/json")
+            .addHeader("Content-Type", "application/json; charset=utf-8")
             .addHeader("Transfer-Encoding", "chunked");
 }
 

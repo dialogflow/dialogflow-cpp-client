@@ -36,7 +36,8 @@ int main(int argc, char *argv[]) {
                     )
             );
 
-    auto request = std::shared_ptr<TextQueryRequest>(new TextQueryRequest(QueryText::One("hi nori"), "en", credentials, params));
+//    auto request = std::shared_ptr<TextQueryRequest>(new TextQueryRequest(QueryText::One("hi nori"), "en", credentials, params));
+    auto request = std::shared_ptr<TextQueryRequest>(new TextQueryRequest(QueryText::One("Привет, Вася!"), "en", credentials, params));
 
     auto response = request->perform();
 
