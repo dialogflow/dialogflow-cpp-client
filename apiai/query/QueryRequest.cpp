@@ -1,9 +1,13 @@
 #include "QueryRequest.h"
 
+#include <ctime>
 #include <iostream>
 #include <iomanip>
+#include <map>
+#include <vector>
 
 #include "ContextParametersSerializer.h"
+#include "request/QueryText.h"
 #include "request/QueryTextSerialize.h"
 
 #include "cJSON.h"
@@ -15,9 +19,9 @@ using namespace ai::query;
 using namespace ai::query::request;
 using namespace ai::query::response;
 
-QueryRequest::QueryRequest(std::string language,
-                           Credentials credentials,
-                           Parameters parameters):
+QueryRequest::QueryRequest(const std::string &language,
+                           const Credentials &credentials,
+                           const Parameters &parameters):
     Request(credentials), language(language), parameters(parameters)
 {
     if (language.size() == 0) {
@@ -29,12 +33,12 @@ QueryRequest::QueryRequest(std::string language,
             .addHeader("Transfer-Encoding", "chunked");
 }
 
-std::string QueryRequest::getLanguage() const
+const std::string &QueryRequest::getLanguage() const
 {
     return language;
 }
 
-Response QueryRequest::fromResponse(std::string response) {
+Response QueryRequest::fromResponse(const std::string &response) {
     cout << response << endl;
 
     cJSON *root = cJSON_Parse(response.c_str());
@@ -130,7 +134,7 @@ QueryRequest::~QueryRequest() {
 
 }
 
-Parameters QueryRequest::getParameters() const
+const Parameters &QueryRequest::getParameters() const
 {
     return parameters;
 }

@@ -2,30 +2,22 @@
 #define QUERY_REQUEST_H
 
 #include <string>
-#include <ctime>
-#include <vector>
-#include <map>
 
 #include "response/Response.h"
-#include "request/QueryText.h"
-
 #include "../http/Request.h"
-#include "../JSON/JSONException.h"
-
 #include "request/Parameters.h"
 
 namespace ai {
     namespace query {
         namespace request {
+            class QueryText;
 
             class QueryRequest: public Request<ai::query::response::Response> {
             public:
-                // TODO: It would be nice to decorate the getters as shown below.
-//                const std::string &getLanguage() const;
-                std::string getLanguage() const;
-                Parameters getParameters() const;
+                const std::string &getLanguage() const;
+                const Parameters &getParameters() const;
 
-                QueryRequest(std::string language, Credentials credentials, Parameters parameters);
+                QueryRequest(const std::string &language, const Credentials &credentials, const Parameters &parameters);
                 virtual ~QueryRequest();
 
             private:
@@ -36,7 +28,7 @@ namespace ai {
                 std::string language;
                 std::shared_ptr<QueryText> query;
             protected:
-                virtual response::Response fromResponse(std::string response) override;
+                virtual response::Response fromResponse(const std::string &response) override;
             };
         }
     }

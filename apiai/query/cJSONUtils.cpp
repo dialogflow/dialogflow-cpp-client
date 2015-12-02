@@ -1,5 +1,5 @@
 #include "cJSONUtils.h"
-
+#include <cJSON.h>
 #include "../JSON/JSONException.h"
 
 cJSON *jsonObject(cJSON *object, const char *key) {
@@ -30,8 +30,7 @@ int jsonInt(cJSON *object, const char *key) {
     return other->valueint;
 }
 
-// FIXME: The return type is expected to be 'double'?
-int jsonDouble(cJSON *object, const char *key) {
+double jsonDouble(cJSON *object, const char *key) {
     auto other = jsonObject(object, key);
 
     if (other->type != cJSON_Number) {

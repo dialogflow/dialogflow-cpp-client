@@ -3,6 +3,7 @@
 #include "cJSON.h"
 
 #include "response/Response.h"
+#include "request/QueryText.h"
 #include "request/QueryTextSerialize.h"
 
 using namespace std;
@@ -10,10 +11,10 @@ using namespace ai::query::request;
 using namespace ai::query::response;
 
 TextQueryRequest::TextQueryRequest(
-        std::shared_ptr<QueryText> query,
-        std::string language,
-        Credentials credentials,
-        Parameters parameters): QueryRequest(language, credentials, parameters), query(query)
+        const std::shared_ptr<QueryText> &query,
+        const std::string &language,
+        const Credentials &credentials,
+        const Parameters &parameters): QueryRequest(language, credentials, parameters), query(query)
 {
     if (!query.get()) {
         throw invalid_argument("Query cannot be null");
@@ -91,7 +92,7 @@ Response TextQueryRequest::perform() {
     return Request::perform();
 }
 
-std::shared_ptr<QueryText> TextQueryRequest::getQuery() const
+const std::shared_ptr<QueryText> &TextQueryRequest::getQuery() const
 {
     return query;
 }

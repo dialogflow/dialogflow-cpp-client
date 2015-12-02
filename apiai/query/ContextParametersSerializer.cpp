@@ -1,5 +1,6 @@
 #include "ContextParametersSerializer.h"
 
+#include <cJSON.h>
 #include <vector>
 
 using namespace std;
