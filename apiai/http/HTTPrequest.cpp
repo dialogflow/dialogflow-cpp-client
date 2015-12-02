@@ -56,7 +56,7 @@ public:
         curl_easy_setopt(curl, CURLOPT_URL, URL.c_str());
     }
 
-    std::string getURL() const
+    const std::string &getURL() const
     {
         return URL;
     }
@@ -67,7 +67,7 @@ public:
         curl_easy_setopt(curl, CURLOPT_URL, URL.c_str());
     }
 
-    std::string getBody() const
+    const std::string &getBody() const
     {
         return body;
     }
@@ -117,7 +117,7 @@ public:
         return response;
     }
 
-    std::map<std::string, std::string> getHeaders() const
+    const std::map<std::string, std::string> &getHeaders() const
     {
         return headers;
     }
@@ -127,7 +127,7 @@ public:
         headers = value;
     }
 
-    void addHeader(std::string name, std::string value) {
+    void addHeader(const std::string &name, const std::string &value) {
         headers[name] = value;
     }
 
@@ -136,11 +136,11 @@ public:
     }
 };
 
-HTTPRequest::HTTPRequest(std::string URL): impl(new HTTPRequestImpl(URL))
+HTTPRequest::HTTPRequest(const std::string &URL): impl(new HTTPRequestImpl(URL))
 {
 }
 
-std::string HTTPRequest::getURL() const
+const std::string &HTTPRequest::getURL() const
 {
     return impl->getURL();
 }
@@ -150,7 +150,7 @@ void HTTPRequest::setURL(const std::string &value)
     impl->setURL(value);
 }
 
-std::string HTTPRequest::getBody() const
+const std::string &HTTPRequest::getBody() const
 {
     return impl->getBody();
 }
@@ -170,12 +170,12 @@ void HTTPRequest::setHeaders(const std::map<std::string, std::string> &value)
     impl->setHeaders(value);
 }
 
-std::map<std::string, std::string> HTTPRequest::getHeaders() const
+const std::map<std::string, std::string> &HTTPRequest::getHeaders() const
 {
     return impl->getHeaders();
 }
 
-HTTPRequest& HTTPRequest::addHeader(std::string name, std::string value) {
+HTTPRequest& HTTPRequest::addHeader(const std::string &name, const std::string &value) {
     impl->addHeader(name, value);
 
     return *this;

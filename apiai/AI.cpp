@@ -14,11 +14,11 @@ namespace ai {
         curl_global_init(CURL_GLOBAL_DEFAULT);
     }
 
-    void AI::configure(Credentials credentials) {
+    void AI::configure(const Credentials &credentials) {
         AI::credentials = std::shared_ptr<Credentials>(new Credentials(credentials));
     }
 
-    void AI::configure(std::string clientAccessToken, std::string subscribtionKey) {
+    void AI::configure(const std::string &clientAccessToken, const std::string &subscribtionKey) {
         AI::configure(Credentials(clientAccessToken, subscribtionKey));
     }
 

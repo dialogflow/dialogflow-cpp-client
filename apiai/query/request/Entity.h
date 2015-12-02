@@ -9,12 +9,12 @@ namespace ai {
         namespace request {
             class Entry {
             public:
-                Entry(std::string value, std::vector<std::string> synonyms = {});
+                Entry(const std::string &value, const std::vector<std::string> &synonyms = {});
 
-                Entry& addSynonym(std::string synonym);
+                Entry& addSynonym(const std::string &synonym);
 
-                std::string getValue() const;
-                std::vector<std::string> getSynonyms() const;
+                const std::string &getValue() const;
+                const std::vector<std::string> &getSynonyms() const;
 
                 virtual ~Entry();
             private:
@@ -25,13 +25,13 @@ namespace ai {
             class Entity
             {
             public:
-                Entity(/*std::string id,*/ std::string name, std::vector<Entry> entries = {});
+                Entity(/*const std::string &id,*/ const std::string &name, const std::vector<Entry> &entries = {});
 
-                Entity& addEntry(Entry entry);
+                Entity& addEntry(const Entry &entry);
 
-//                std::string getId() const;
-                std::string getName() const;
-                std::vector<Entry> getEntries() const;
+//                const std::string &getId() const;
+                const std::string &getName() const;
+                const std::vector<Entry> &getEntries() const;
 
                 virtual ~Entity();
             private:

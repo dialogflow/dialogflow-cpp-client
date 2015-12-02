@@ -15,8 +15,8 @@ namespace ai {
         static void global_init();
         static void global_clean();
 
-        static void configure(Credentials credentials);
-        static void configure(std::string clientAccessToken, std::string subscribtionKey);
+        static void configure(const Credentials &credentials);
+        static void configure(const std::string &clientAccessToken, const std::string &subscribtionKey);
 
         static Service& sharedService();
     };

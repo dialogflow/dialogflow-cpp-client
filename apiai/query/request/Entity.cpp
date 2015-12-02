@@ -5,7 +5,7 @@ using namespace ai::query::request;
 
 //Entry
 
-Entry::Entry(std::string value, std::vector<std::string> synonyms): value(value), synonyms({})
+Entry::Entry(const std::string &value, const std::vector<std::string> &synonyms): value(value), synonyms({})
 {
     if (value.size() == 0) {
         throw std::invalid_argument("Value cannot be empty.");
@@ -16,7 +16,7 @@ Entry::Entry(std::string value, std::vector<std::string> synonyms): value(value)
     }
 }
 
-Entry& Entry::addSynonym(std::string synonym)
+Entry& Entry::addSynonym(const std::string &synonym)
 {
     if (value.size() == 0) {
         throw std::invalid_argument("Synonym cannot be empty.");
@@ -26,12 +26,12 @@ Entry& Entry::addSynonym(std::string synonym)
     return *this;
 }
 
-std::string Entry::getValue() const
+const std::string &Entry::getValue() const
 {
     return value;
 }
 
-std::vector<std::string> Entry::getSynonyms() const
+const std::vector<std::string> &Entry::getSynonyms() const
 {
     return synonyms;
 }
@@ -40,30 +40,30 @@ Entry::~Entry(){}
 
 // Entity
 
-Entity::Entity(/*std::string id,*/ std::string name, std::vector<Entry> entries): /*id(id),*/ name(name), entries(entries)
+Entity::Entity(/*const std::string &id,*/ const std::string &name, const std::vector<Entry> &entries): /*id(id),*/ name(name), entries(entries)
 {
     if(name.size() == 0) {
         throw invalid_argument("Name cannot ne empty.");
     }
 }
 
-Entity& Entity::addEntry(Entry entry)
+Entity& Entity::addEntry(const Entry &entry)
 {
     this->entries.push_back(entry);
     return *this;
 }
 
-//std::string Entity::getId() const
+//const std::string &Entity::getId() const
 //{
 //    return id;
 //}
 
-std::string Entity::getName() const
+const std::string &Entity::getName() const
 {
     return name;
 }
 
-std::vector<Entry> Entity::getEntries() const
+const std::vector<Entry> &Entity::getEntries() const
 {
     return entries;
 }

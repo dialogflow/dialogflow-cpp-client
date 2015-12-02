@@ -5,21 +5,25 @@
 
 #include <memory>
 #include <string>
-#include "request/QueryText.h"
 
 namespace ai {
+    class Credentials;
+
     namespace query {
         namespace request {
+            class Parameters;
+            class QueryText;
+
             class TextQueryRequest : public QueryRequest {
             public:
-                TextQueryRequest(std::shared_ptr<QueryText> query,
-                                 std::string language,
-                                 Credentials credentials,
-                                 Parameters parameters);
+                TextQueryRequest(const std::shared_ptr<QueryText> &query,
+                                 const std::string &language,
+                                 const Credentials &credentials,
+                                 const Parameters &parameters);
 
                 virtual response::Response perform() override;
 
-                std::shared_ptr<QueryText> getQuery() const;
+                const std::shared_ptr<QueryText> &getQuery() const;
             private:
                 TextQueryRequest(const QueryRequest&);
 

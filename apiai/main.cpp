@@ -13,6 +13,7 @@
 #include "AI.h"
 
 #include "query/TextQueryRequest.h"
+#include "query/request/QueryText.h"
 #include "Exception.h"
 
 #include "JSON/JSONException.h"

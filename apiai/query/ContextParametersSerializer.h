@@ -1,11 +1,12 @@
 #ifndef CONTEXTPARAMETERSSERIALIZER_H
 #define CONTEXTPARAMETERSSERIALIZER_H
 
-#include "response/Context.h" // TODO: Shouldn't we use forward declaration instead?
-#include "cJSON.h" // TODO: Shouldn't we use forward declaration instead?
-
 #include <string>
 #include <map>
+
+#include "response/Context.h"
+
+class cJSON;
 
 namespace ai{
     namespace query {
