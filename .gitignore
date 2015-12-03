@@ -32,3 +32,5 @@
 
 # Other
 build
+*.user
+*.user.*
