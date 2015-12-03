@@ -15,9 +15,7 @@ namespace ai {
 
             StreamReader(const StreamReader &reader);
 
-            StreamReader &read(char *target, std::streamsize count);
-
-            std::streamsize readsome(char *target, std::streamsize count);
+            std::streamsize read(char *target, std::streamsize count);
 
         private:
 

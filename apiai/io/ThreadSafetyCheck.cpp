@@ -30,7 +30,7 @@ namespace ai {
             int id = (arg == NULL) ? 0 : *(int *)arg;
             static unsigned long long counter = 0ll;
             ai::io::StreamWriter writer = getStreamWriter();
-            while (true) {
+            while (counter < 25) {
                 usleep(500000);
 
                 __mutex_increase.lock();
@@ -58,7 +58,7 @@ namespace ai {
                 usleep(1000000);
 
                 char *buffer = new char[sizeOfBuffer];
-                const int count = reader.readsome(buffer, sizeOfBuffer);
+                const int count = reader.read(buffer, sizeOfBuffer);
 
                 if (count > 0) {
                     std::string message{""};

@@ -11,9 +11,7 @@ namespace ai {
         public:
             Stream &write(const char *source, std::streamsize count);
 
-            Stream &read(char *target, std::streamsize count);
-
-            std::streamsize readsome(char *target, std::streamsize count);
+            std::streamsize read(char *target, std::streamsize count);
 
         private:
 

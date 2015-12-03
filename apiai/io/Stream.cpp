@@ -4,37 +4,34 @@ namespace ai {
     namespace io {
 
         Stream &Stream::write(const char *source, std::streamsize count) {
-           this->mutex.lock();
-
-           if (this->inout.eof()) {
-              this->inout.clear();
-           }
-          this->inout.write(source, count);
-           this->inout.flush();
-
-           this->mutex.unlock();
-
-           return *this;
-        }
-
-        Stream &Stream::read(char *target, std::streamsize count) {
             this->mutex.lock();
 
-            this->inout.read(target, count);
+            if (this->inout.eof()) {
+                this->inout.clear();
+            }
+            this->inout.write(source, count);
+            this->inout.flush();
 
             this->mutex.unlock();
 
             return *this;
         }
 
-        std::streamsize Stream::readsome(char *target, std::streamsize count) {
+        std::streamsize Stream::read(char *target, std::streamsize count) {
             this->mutex.lock();
 
-            count = this->inout.readsome(target, count);
+            std::streamsize read = 0;
+            const std::streampos gpos = this->inout.tellg(); // input
+            const std::streampos ppos = this->inout.tellp(); // output
+            if (gpos < ppos) {
+                const std::streamsize available = ppos - gpos;
+                read = std::min(available, count);
+                this->inout.read(target, read);
+            }
 
             this->mutex.unlock();
 
-            return count;
+            return read;
         }
     }
 }
