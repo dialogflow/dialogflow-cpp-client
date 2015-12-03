@@ -32,3 +32,6 @@
 
 # Other
 build
+
+# QT Creator
+*.user

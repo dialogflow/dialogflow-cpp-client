@@ -18,6 +18,10 @@
 
 #include "JSON/JSONException.h"
 
+#include "query/cJSONUtils.h"
+
+//#include "query/cJSONUtils.h"
+
 using namespace std;
 
 using namespace ai::query::request;
