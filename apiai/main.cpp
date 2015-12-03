@@ -36,7 +36,20 @@ public:
     };
 };
 
+#ifndef CHECK_STREAMS
+    #define CHECK_STREAMS 1
+#endif
+
+#include "io/ThreadSafetyCheck.h"
+
 int main(int argc, char *argv[]) {
+
+#ifdef CHECK_STREAMS
+
+    ai::io::ThreadSafetyCheck::check();
+
+#else
+
     ai::AI::global_init();
 
 //    vector<int>::value_type;
@@ -64,6 +77,8 @@ int main(int argc, char *argv[]) {
     std::cout << response << std::endl;
 
     ai::AI::global_clean();
+
+#endif
 
     return 0;
 }
