@@ -36,17 +36,17 @@ public:
     };
 };
 
-#ifndef CHECK_STREAMS
-    #define CHECK_STREAMS 1
+#ifndef CHECKS_STREAM_THREAD_SAFETY
+    #define CHECKS_STREAM_THREAD_SAFETY 1
 #endif
 
-#include "io/ThreadSafetyCheck.h"
+#include "io/StreamThreadSafetyCheck.h"
 
 int main(int argc, char *argv[]) {
 
-#ifdef CHECK_STREAMS
+#ifdef CHECKS_STREAM_THREAD_SAFETY
 
-    ai::io::ThreadSafetyCheck::check();
+    ai::io::StreamThreadSafetyCheck::startChecking();
 
 #else
 

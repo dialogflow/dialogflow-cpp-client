@@ -13,5 +13,9 @@ namespace ai {
         std::streamsize StreamReader::read(char *target, std::streamsize count) {
             return this->stream.read(target, count);
         }
+
+        bool StreamReader::isEmpty() {
+            return this->stream.isEmpty();
+        }
     }
 }

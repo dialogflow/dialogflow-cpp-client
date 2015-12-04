@@ -1,5 +1,5 @@
-#ifndef THREAD_SAFETY_CHECK_H
-#define THREAD_SAFETY_CHECK_H
+#ifndef STREAM_THREAD_SAFETY_CHECK_H
+#define STREAM_THREAD_SAFETY_CHECK_H
 
 #include "StreamReader.h"
 #include "StreamWriter.h"
@@ -9,7 +9,7 @@ namespace ai {
 
         class Stream;
 
-        class ThreadSafetyCheck {
+        class StreamThreadSafetyCheck {
 
             static ai::io::Stream &getStream();
 
@@ -21,17 +21,19 @@ namespace ai {
 
             static void *read(void *arg);
 
+            static void createDetachedThreads(void *(*startRoutine)(void *), unsigned int numberOfThreads);
+
             static void createDetachedWriters(unsigned int numberOfWriters);
 
             static void createDetachedReaders(unsigned int numberOfReaders);
 
-            static void waitInfinitely();
+            static void waitUntilStreamIsEmptied();
 
         public:
 
-            static void check();
+            static void startChecking();
         };
     }
 }
 
-#endif // THREAD_SAFETY_CHECK_H
+#endif // STREAM_THREAD_SAFETY_CHECK_H

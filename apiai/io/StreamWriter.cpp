@@ -13,19 +13,27 @@ namespace ai {
         }
 
         StreamWriter &StreamWriter::write(const char *source, std::streamsize count) {
-            this->buffer.write(source, count);
-            this->buffer.flush();
+            this->stringstream.write(source, count);
+            this->stringstream.flush();
 
             return *this;
         }
 
+        bool StreamWriter::isSealed() {
+            return this->stream.isSealed();
+        }
+
+        void StreamWriter::seal() {
+            this->stream.seal();
+        }
+
         void StreamWriter::flush() {
-            const std::streampos gpos = this->buffer.tellg(); // input
-            const std::streampos ppos = this->buffer.tellp(); // output
+            const std::streampos gpos = this->stringstream.tellg(); // input
+            const std::streampos ppos = this->stringstream.tellp(); // output
             if (gpos < ppos) {
                 const std::streamsize size = ppos - gpos;
                 char *characters = new char[size];
-                this->buffer.read(characters, size);
+                this->stringstream.read(characters, size);
                 this->stream.write(characters, size);
                 delete [] characters;
                 characters = NULL;

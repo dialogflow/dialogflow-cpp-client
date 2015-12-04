@@ -17,12 +17,16 @@ namespace ai {
 
             StreamWriter &write(const char *source, std::streamsize count);
 
+            bool isSealed();
+
+            void seal();
+
             void flush();
 
         private:
 
             Stream &stream;
-            std::stringstream buffer;
+            std::stringstream stringstream;
         };
     }
 }

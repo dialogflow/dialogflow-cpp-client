@@ -17,6 +17,8 @@ namespace ai {
 
             std::streamsize read(char *target, std::streamsize count);
 
+            bool isEmpty();
+
         private:
 
             Stream &stream;
