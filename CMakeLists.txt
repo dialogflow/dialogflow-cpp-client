@@ -5,6 +5,7 @@ enable_testing()
 
 #OPTION(APIAI_WITH_TESTS "Compile and run tests." ON)
 #OPTION(APIAI_WITH_POST_BUILD_UNITTEST "Automatically run unit-tests as a post build step" ON)
+OPTION(APIAI_WITH_PKGCONFIG_SUPPORT "Generate and install .pc files" ON)
 OPTION(BUILD_SHARED_LIBS "Build apiai as a shared library." ON)
 OPTION(BUILD_STATIC_LIBS "Build apiai as a static library." OFF)
 
@@ -51,6 +52,15 @@ SET(PACKAGE_INSTALL_DIR lib${LIB_SUFFIX}/cmake
     CACHE PATH "Install dir for cmake package config files")
 MARK_AS_ADVANCED( RUNTIME_INSTALL_DIR ARCHIVE_INSTALL_DIR INCLUDE_INSTALL_DIR PACKAGE_INSTALL_DIR )
 
+IF(APIAI_WITH_PKGCONFIG_SUPPORT)
+        CONFIGURE_FILE(
+                "pkg-config/apiai.pc.in"
+                "pkg-config/apiai.pc"
+                @ONLY)
+        INSTALL(FILES "${CMAKE_BINARY_DIR}/pkg-config/apiai.pc"
+                DESTINATION "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/pkgconfig")
+ENDIF()
+
 INCLUDE_DIRECTORIES( ${apiai_SOURCE_DIR}/apiai )
 
 include_directories(thirdparty/cJSON)
@@ -58,8 +68,6 @@ include_directories(thirdparty/cJSON)
 add_library(cJson STATIC thirdparty/cJSON/cJSON.c)
 
 add_subdirectory(indent_stream)
-#include_directories(${INDENT_STREAM_INCLUDE_DIR})
-#INCLUDE_DIRECTORIES(indent_stream)
 
 add_subdirectory(apiai)
 

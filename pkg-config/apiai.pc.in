@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=@LIBRARY_INSTALL_DIR@
+includedir=@INCLUDE_INSTALL_DIR@
+
+Name: apiai
+Description: A C++ library for integrating apiai.
+Version: 1.0.0
+URL: https://github.com/api-ai/libapiai
+Libs: -L${libdir} -lapiai
+Cflags: -I${includedir}
