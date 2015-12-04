@@ -11,7 +11,7 @@ namespace ai {
         class Stream {
         public:
 
-            bool isEmpty();
+            bool isAtEnd();
 
             bool isSealed();
 
@@ -23,27 +23,27 @@ namespace ai {
 
         private:
 
-            bool unsafe_is_empty();
+            bool unsafeIsAtEnd();
 
-            bool unsafe_is_sealed() const;
+            bool unsafeIsSealed() const;
 
-            void unsafe_seal();
+            void unsafeSeal();
 
-            bool unsafe_good() const;
+            bool unsafeGood() const;
 
-            std::streampos unsafe_tellg();
-            std::streampos unsafe_tellp();
+            std::streampos unsafeTellg();
+            std::streampos unsafeTellp();
 
-            std::streamsize unsafe_in_avail();
+            std::streamsize unsafeInAvail();
 
-            std::stringstream &unsafe_write(const char *source, std::streamsize count);
-            std::stringstream &unsafe_read(char *target, std::streamsize count);
+            std::stringstream &unsafeWrite(const char *source, std::streamsize count);
+            std::stringstream &unsafeRead(char *target, std::streamsize count);
 
-            void unsafe_flush();
+            void unsafeFlush();
 
             bool sealed = false;
 
-            std::condition_variable condition_variable;
+            std::condition_variable conditionVariable;
             std::mutex mutex;
 
             std::stringstream stringstream;

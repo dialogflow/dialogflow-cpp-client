@@ -40,7 +40,7 @@ public:
     #define CHECKS_STREAM_THREAD_SAFETY 1
 #endif
 
-#include "io/StreamThreadSafetyCheck.h"
+#include "io/tests/StreamThreadSafetyCheck.h"
 
 int main(int argc, char *argv[]) {
 
@@ -82,3 +82,5 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
+
+#undef CHECKS_STREAM_THREAD_SAFETY

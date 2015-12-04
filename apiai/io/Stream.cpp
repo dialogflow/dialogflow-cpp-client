@@ -7,32 +7,32 @@ namespace ai {
         /// Thread-safe methods
         ///
 
-        bool Stream::isEmpty() {
+        bool Stream::isAtEnd() {
             std::unique_lock<std::mutex> lock(this->mutex);
-            return this->unsafe_is_empty();
+            return this->unsafeIsAtEnd();
         }
 
         bool Stream::isSealed() {
             std::unique_lock<std::mutex> lock(this->mutex);
-            return this->unsafe_is_sealed();
+            return this->unsafeIsSealed();
         }
 
         void Stream::seal() {
             std::unique_lock<std::mutex> lock(this->mutex);
-            this->unsafe_seal();
+            this->unsafeSeal();
         }
 
         Stream &Stream::write(const char *source, std::streamsize count) {
             {
                 std::unique_lock<std::mutex> lock(this->mutex);
-                if (this->unsafe_is_sealed()) {
+                if (this->unsafeIsSealed()) {
                     return *this;
                 }
 
-                this->unsafe_write(source, count);
-                this->unsafe_flush();
+                this->unsafeWrite(source, count);
+                this->unsafeFlush();
             }
-            this->condition_variable.notify_all();
+            this->conditionVariable.notify_all();
 
             return *this;
         }
@@ -41,19 +41,19 @@ namespace ai {
             std::streamsize read = 0;
             {
                 std::unique_lock<std::mutex> lock(this->mutex);
-                if (this->unsafe_good()) {
-                    if (this->unsafe_is_sealed() && this->unsafe_is_empty()) {
+                if (this->unsafeGood()) {
+                    if (this->unsafeIsAtEnd()) {
                         return read;
                     }
 
-                    this->condition_variable.wait(lock, [this]{
-                        return (this->unsafe_in_avail() > 0);
+                    this->conditionVariable.wait(lock, [this]{
+                        return (this->unsafeInAvail() > 0);
                     });
 
-                    const std::streamsize in_avail = this->unsafe_in_avail();
-                    if (in_avail > 0) {
-                        read = std::min(in_avail, count);
-                        this->unsafe_read(target, read);
+                    const std::streamsize inAvail = this->unsafeInAvail();
+                    if (inAvail > 0) {
+                        read = std::min(inAvail, count);
+                        this->unsafeRead(target, read);
                     }
                 }
             }
@@ -65,52 +65,52 @@ namespace ai {
         /// Thread-unsafe methods
         ///
 
-        bool Stream::unsafe_is_empty() {
-            return (this->unsafe_in_avail() == 0);
+        bool Stream::unsafeIsAtEnd() {
+            return (this->unsafeIsSealed()) && (this->unsafeInAvail() == 0);
         }
 
-        bool Stream::unsafe_is_sealed() const {
+        bool Stream::unsafeIsSealed() const {
             return this->sealed;
         }
 
-        void Stream::unsafe_seal() {
-            if (!this->unsafe_is_sealed()) {
+        void Stream::unsafeSeal() {
+            if (!this->unsafeIsSealed()) {
                 this->sealed = true;
             }
         }
 
-        bool Stream::unsafe_good() const {
+        bool Stream::unsafeGood() const {
             return this->stringstream.good();
         }
 
-        std::streampos Stream::unsafe_tellg() {
+        std::streampos Stream::unsafeTellg() {
             return this->stringstream.tellg();
         }
 
-        std::streampos Stream::unsafe_tellp() {
+        std::streampos Stream::unsafeTellp() {
             return this->stringstream.tellp();
         }
 
-        std::streamsize Stream::unsafe_in_avail() {
-            const std::streampos gpos = this->unsafe_tellg(); // input
-            const std::streampos ppos = this->unsafe_tellp(); // output
+        std::streamsize Stream::unsafeInAvail() {
+            const std::streampos gpos = this->unsafeTellg(); // input
+            const std::streampos ppos = this->unsafeTellp(); // output
 
             return (gpos < ppos) ? (ppos - gpos) : 0;
         }
 
-        std::stringstream &Stream::unsafe_write(const char *source, std::streamsize count) {
+        std::stringstream &Stream::unsafeWrite(const char *source, std::streamsize count) {
             this->stringstream.write(source, count);
 
             return this->stringstream;
         }
 
-        std::stringstream &Stream::unsafe_read(char *target, std::streamsize count) {
+        std::stringstream &Stream::unsafeRead(char *target, std::streamsize count) {
             this->stringstream.read(target, count);
 
             return this->stringstream;
         }
 
-        void Stream::unsafe_flush() {
+        void Stream::unsafeFlush() {
             this->stringstream.flush();
         }
     }

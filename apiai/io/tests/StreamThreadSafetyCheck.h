@@ -1,8 +1,8 @@
 #ifndef STREAM_THREAD_SAFETY_CHECK_H
 #define STREAM_THREAD_SAFETY_CHECK_H
 
-#include "StreamReader.h"
-#include "StreamWriter.h"
+#include "../StreamReader.h"
+#include "../StreamWriter.h"
 
 namespace ai {
     namespace io {
@@ -23,11 +23,15 @@ namespace ai {
 
             static void createDetachedThreads(void *(*startRoutine)(void *), unsigned int numberOfThreads);
 
-            static void createDetachedWriters(unsigned int numberOfWriters);
+            static void createDetachedWriter();
 
-            static void createDetachedReaders(unsigned int numberOfReaders);
+            static void createDetachedReader();
 
             static void waitUntilStreamIsEmptied();
+
+            static void *readFile(void *arg);
+
+            static void *writeFile(void *arg);
 
         public:
 

@@ -14,8 +14,8 @@ namespace ai {
             return this->stream.read(target, count);
         }
 
-        bool StreamReader::isEmpty() {
-            return this->stream.isEmpty();
+        bool StreamReader::isAtEnd() {
+            return this->stream.isAtEnd();
         }
     }
 }

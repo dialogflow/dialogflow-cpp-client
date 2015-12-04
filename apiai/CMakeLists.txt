@@ -9,9 +9,15 @@ add_subdirectory(JSON)
 file (GLOB SRCS *.cpp *.h *.hpp *.c)
 
 file (GLOB QUERY_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-  io/*.cpp query/*.cpp query/response/*.cpp query/request/*.cpp)
+   query/*.cpp query/response/*.cpp query/request/*.cpp)
 
-set(SRCS ${SRCS} ${QUERY_SOURCES})
+file (GLOB IO_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+   io/*.cpp io/tests/*.cpp)
+
+file (GLOB IO_TESTS_SOUNDS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+   io/tests/sounds/*.wav)
+
+set(SRCS ${SRCS} ${QUERY_SOURCES} ${IO_SOURCES} ${IO_TESTS_SOUNDS})
 
 include_directories(indent_stream)
 
@@ -22,3 +28,7 @@ target_link_libraries(demo indent_stream_library)
 target_link_libraries(demo http_library)
 target_link_libraries(demo cJson)
 target_link_libraries(demo curl)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/io/tests/sounds/sound1.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/sound1.wav COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/io/tests/sounds/sound2.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/sound2.wav COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/io/tests/sounds/speech_d.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/speech_d.wav COPYONLY)
