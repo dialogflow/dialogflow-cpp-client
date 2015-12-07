@@ -15,6 +15,8 @@ namespace ai {
 
             StreamWriter(const StreamWriter &writer);
 
+            StreamWriter &write(const std::string &source);
+
             StreamWriter &write(const char *source, std::streamsize count);
 
             bool sealed();

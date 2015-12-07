@@ -12,6 +12,10 @@ namespace ai {
         StreamWriter::StreamWriter(const StreamWriter &writer) : stream_(writer.stream_) {
         }
 
+        StreamWriter &StreamWriter::write(const std::string &source) {
+            return this->write(source.c_str(), source.size());
+        }
+
         StreamWriter &StreamWriter::write(const char *source, std::streamsize count) {
             this->stringstream_.write(source, count);
             this->stringstream_.flush();

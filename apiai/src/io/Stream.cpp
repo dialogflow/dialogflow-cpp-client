@@ -32,6 +32,10 @@ namespace ai {
             this->unsafeStr(string);
         }
 
+        Stream &Stream::write(const std::string &source) {
+            return this->write(source.c_str(), source.size());
+        }
+
         Stream &Stream::write(const char *source, std::streamsize count) {
             {
                 std::unique_lock<std::mutex> lock(this->mutex_);

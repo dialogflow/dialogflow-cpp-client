@@ -21,6 +21,8 @@ namespace ai {
 
             void str(const std::string &string);
 
+            Stream &write(const std::string &source);
+
             Stream &write(const char *source, std::streamsize count);
 
             std::streamsize read(char *target, std::streamsize count);
