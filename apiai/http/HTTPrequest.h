@@ -6,6 +6,10 @@
 
 namespace ai {
 
+    namespace io {
+        class StreamWriter;
+    }
+
 class HTTPRequest
 {
     class HTTPRequestImpl;
@@ -13,8 +17,10 @@ class HTTPRequest
 public:
     HTTPRequest(const std::string &URL);
 
-    const std::string &getBody() const;
+    std::string getBody();
     void setBody(const std::string &value);
+
+    io::StreamWriter getBodyStreamWriter();
 
     const std::string &getURL() const;
     void setURL(const std::string &value);

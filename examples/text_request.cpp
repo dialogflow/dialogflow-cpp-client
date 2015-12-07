@@ -36,7 +36,20 @@ public:
     };
 };
 
+#ifndef CHECKS_STREAM_THREAD_SAFETY
+//    #define CHECKS_STREAM_THREAD_SAFETY 1
+#endif
+
+#include "io/tests/StreamThreadSafetyCheck.h"
+
 int main(int argc, char *argv[]) {
+
+#ifdef CHECKS_STREAM_THREAD_SAFETY
+
+    ai::io::StreamThreadSafetyCheck::startChecking();
+
+#else
+
     ai::AI::global_init();
 
 //    vector<int>::value_type;
@@ -65,5 +78,9 @@ int main(int argc, char *argv[]) {
 
     ai::AI::global_clean();
 
+#endif
+
     return 0;
 }
+
+#undef CHECKS_STREAM_THREAD_SAFETY
