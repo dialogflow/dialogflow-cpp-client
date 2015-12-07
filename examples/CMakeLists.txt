@@ -1,7 +1,13 @@
 add_executable(text_request_example text_request.cpp)
 
+file(GLOB TEST_FILES *.txt)
+
+install (FILES ${TEST_FILES} DESTINATION ${RUNTIME_INSTALL_DIR})
+
 if(BUILD_SHARED_LIBS)
     target_link_libraries(text_request_example apiai)
 else(BUILD_SHARED_LIBS)
     target_link_libraries(text_request_example apiai_static)
 endif()
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/test.txt ${CMAKE_CURRENT_BINARY_DIR}/test.txt COPYONLY)
