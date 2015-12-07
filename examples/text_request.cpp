@@ -7,16 +7,16 @@
 #include <thread>
 #include <functional>
 
-#include <curl/curl.h>
-#include <cJSON.h>
+#include <io/StreamReader.h>
 
-#include "AI.h"
+#include <apiai/AI.h>
 
-#include "query/TextQueryRequest.h"
-#include "query/request/QueryText.h"
-#include "Exception.h"
+#include <apiai/query/TextQueryRequest.h>
+#include <apiai/query/request/QueryText.h>
+#include <apiai/exceptions/Exception.h>
 
-#include "JSON/JSONException.h"
+#include <apiai/exceptions/JSONException.h>
+
 
 using namespace std;
 

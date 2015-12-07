@@ -1,3 +1,5 @@
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../apiai/src)
+
 add_executable(text_request_example text_request.cpp)
 
 file(GLOB TEST_FILES *.txt)

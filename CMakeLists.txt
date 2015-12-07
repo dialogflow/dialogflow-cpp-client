@@ -61,7 +61,7 @@ IF(APIAI_WITH_PKGCONFIG_SUPPORT)
                 DESTINATION "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/pkgconfig")
 ENDIF()
 
-INCLUDE_DIRECTORIES( ${apiai_SOURCE_DIR}/apiai )
+#INCLUDE_DIRECTORIES( ${apiai_SOURCE_DIR}/apiai )
 
 include_directories(thirdparty/cJSON)
 

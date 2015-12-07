@@ -1,59 +1,28 @@
 
 set( CMAKE_C_FLAGS "-Wall" )
 
+add_subdirectory(src)
+
 include_directories(../indent_stream)
 
 set(SRCS)
 
-file (GLOB ALL_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-    *.cpp
-    query/*.cpp
-    query/**/*.cpp
-    JSON/*.cpp
-    http/*.cpp
-    io/*.cpp
-    io/**/*.cpp
-)
+set(ALL_SOURCES ${SOURCES})
 
-SET( APIAI_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR} )
+SET( APIAI_INCLUDE_DIR include )
 
 file (GLOB IO_TESTS_SOUNDS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
    io/tests/sounds/*.wav)
 
 set(SRCS ${SRCS} ${ALL_SOURCES} ${IO_TESTS_SOUNDS})
 
-set(PUBLIC_HEADERS
-    ${APIAI_INCLUDE_DIR}/http/Request.h
-    ${APIAI_INCLUDE_DIR}/JSON/JSONException.h
-    ${APIAI_INCLUDE_DIR}/AI.h
-    ${APIAI_INCLUDE_DIR}/Credentials.h
-    ${APIAI_INCLUDE_DIR}/Exception.h
-    ${APIAI_INCLUDE_DIR}/Service.h
-
-    ${APIAI_INCLUDE_DIR}/query/QueryRequest.h
-    ${APIAI_INCLUDE_DIR}/query/TextQueryRequest.h
-
-    ${APIAI_INCLUDE_DIR}/query/request/Entity.h
-    ${APIAI_INCLUDE_DIR}/query/request/Parameters.h
-    ${APIAI_INCLUDE_DIR}/query/request/QueryText.h
-    ${APIAI_INCLUDE_DIR}/query/request/RequestContext.h
-
-    ${APIAI_INCLUDE_DIR}/query/response/Context.h
-    ${APIAI_INCLUDE_DIR}/query/response/Fulfillment.h
-    ${APIAI_INCLUDE_DIR}/query/response/Metadata.h
-    ${APIAI_INCLUDE_DIR}/query/response/Response.h
-    ${APIAI_INCLUDE_DIR}/query/response/Result.h
-
-    ${APIAI_INCLUDE_DIR}/io/Stream.h
-    ${APIAI_INCLUDE_DIR}/io/StreamReader.h
-    ${APIAI_INCLUDE_DIR}/io/StreamWriter.h
+file(GLOB_RECURSE PUBLIC_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/
+    include/*.h
 )
 
 SOURCE_GROUP( "Public API" FILES ${PUBLIC_HEADERS} )
 
 set(SRCS ${SRCS} ${ALL_SOURCES})
-
-
 
 INSTALL(
         DIRECTORY ${APIAI_INCLUDE_DIR}/
@@ -108,12 +77,3 @@ if(BUILD_STATIC_LIBS)
                                    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/${APIAI_INCLUDE_DIR}>)
     endif()
 endif(BUILD_STATIC_LIBS)
-
-#target_link_libraries(demo json_library)
-#target_link_libraries(demo indent_stream_library)
-#target_link_libraries(demo http_library)
-#target_link_libraries(demo cJson)
-#target_link_libraries(demo curl)
-
-
-#>>>>>>> a9fb4855a4f3d31ccc1084ed9b4a9b24e3ca69b9
