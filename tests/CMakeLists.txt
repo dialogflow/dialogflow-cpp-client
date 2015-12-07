@@ -1,15 +1,23 @@
-file(GLOB TESTS_SRCS *.cpp *.h **/*.cpp **/*.h)
+find_package (Boost COMPONENTS unit_test_framework REQUIRED)
 
-add_executable(streams_test ${TESTS_SRCS})
+if (Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sounds/sound1.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/sound1.wav COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sounds/sound2.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/sound2.wav COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sounds/speech_d.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/speech_d.wav COPYONLY)
+    file(GLOB TESTS_SRCS *.cpp *.h **/*.cpp **/*.h)
 
-if(BUILD_SHARED_LIBS)
-    target_link_libraries(streams_test apiai)
-else(BUILD_SHARED_LIBS)
-    target_link_libraries(streams_test apiai_static)
-endif()
+    add_executable(streams_test ${TESTS_SRCS})
 
-add_test(streams_test streams_test)
+    target_link_libraries (streams_test ${Boost_LIBRARIES})
+
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sounds/sound1.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/sound1.wav COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sounds/sound2.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/sound2.wav COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sounds/speech_d.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/speech_d.wav COPYONLY)
+
+    if(BUILD_SHARED_LIBS)
+        target_link_libraries(streams_test apiai)
+    else(BUILD_SHARED_LIBS)
+        target_link_libraries(streams_test apiai_static)
+    endif()
+
+    add_test(streams_test streams_test)
+endif(Boost_FOUND)
