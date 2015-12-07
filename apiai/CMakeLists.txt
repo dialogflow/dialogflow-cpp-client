@@ -115,7 +115,5 @@ endif(BUILD_STATIC_LIBS)
 #target_link_libraries(demo cJson)
 #target_link_libraries(demo curl)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/io/tests/sounds/sound1.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/sound1.wav COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/io/tests/sounds/sound2.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/sound2.wav COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/io/tests/sounds/speech_d.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/speech_d.wav COPYONLY)
+
 #>>>>>>> a9fb4855a4f3d31ccc1084ed9b4a9b24e3ca69b9

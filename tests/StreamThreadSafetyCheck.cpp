@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 
-#include "../Stream.h"
+#include <io/Stream.h>
 #include "StreamThreadSafetyCheck.h"
 
 namespace ai {

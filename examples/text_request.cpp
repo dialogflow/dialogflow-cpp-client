@@ -22,39 +22,21 @@ using namespace std;
 
 using namespace ai::query::request;
 
-template<typename T>
-class Req
-{
-public:
-    virtual T foo() = 0;
-};
+//#ifndef CHECKS_STREAM_THREAD_SAFETY
 
-class TextRequest: private Req<int> {
-public:
-    virtual int foo() override {
-        return 1;
-    };
-};
-
-#ifndef CHECKS_STREAM_THREAD_SAFETY
-//    #define CHECKS_STREAM_THREAD_SAFETY 1
-#endif
-
-#include "io/tests/StreamThreadSafetyCheck.h"
+//#include "io/tests/StreamThreadSafetyCheck.h"
+////    #define CHECKS_STREAM_THREAD_SAFETY 1
+//#endif
 
 int main(int argc, char *argv[]) {
 
-#ifdef CHECKS_STREAM_THREAD_SAFETY
+//#ifdef CHECKS_STREAM_THREAD_SAFETY
 
-    ai::io::StreamThreadSafetyCheck::startChecking();
+//    ai::io::StreamThreadSafetyCheck::startChecking();
 
-#else
+//#else
 
     ai::AI::global_init();
-
-//    vector<int>::value_type;
-    auto q = TextRequest();
-
 
     auto credentials = ai::Credentials("ff98c090685f484caaffada53cdce7b3", "4c91a8e5-275f-4bf0-8f94-befa78ef92cd");
 
@@ -78,9 +60,9 @@ int main(int argc, char *argv[]) {
 
     ai::AI::global_clean();
 
-#endif
+//#endif
 
     return 0;
 }
 
-#undef CHECKS_STREAM_THREAD_SAFETY
+//#undef CHECKS_STREAM_THREAD_SAFETY

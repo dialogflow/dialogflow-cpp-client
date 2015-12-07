@@ -72,4 +72,4 @@ add_subdirectory(indent_stream)
 add_subdirectory(apiai)
 
 add_subdirectory(examples)
-#add_subdirectory(tests)
+add_subdirectory(tests)

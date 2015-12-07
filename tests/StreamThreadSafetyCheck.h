@@ -1,8 +1,8 @@
 #ifndef STREAM_THREAD_SAFETY_CHECK_H
 #define STREAM_THREAD_SAFETY_CHECK_H
 
-#include "../StreamReader.h"
-#include "../StreamWriter.h"
+#include <io/StreamReader.h>
+#include <io/StreamWriter.h>
 
 namespace ai {
     namespace io {
