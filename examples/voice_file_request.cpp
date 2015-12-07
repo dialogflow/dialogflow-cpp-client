@@ -1,11 +1,13 @@
 #include <iostream>
 #include <string>
 
-#include "AI.h"
-#include "Credentials.h"
+#include <apiai/AI.h>
+#include <apiai/Credentials.h>
+
 #include "io/StreamWriter.h"
-#include "query/VoiceFileRequest.h"
-#include "query/request/Parameters.h"
+
+#include <apiai/query/VoiceFileRequest.h>
+#include <apiai/query/request/Parameters.h>
 
 int main(int argc, char *argv[]) {
 

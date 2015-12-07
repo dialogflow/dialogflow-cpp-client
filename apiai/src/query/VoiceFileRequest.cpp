@@ -2,11 +2,11 @@
 #include <iostream>
 #include <time.h>
 
-#include "VoiceFileRequest.h"
+#include <apiai/query/VoiceFileRequest.h>
 
 #include "cJSON.h"
 
-#include "response/Response.h"
+#include <apiai/query/response/Response.h>
 #include "../io/StreamWriter.h"
 
 using namespace std;
