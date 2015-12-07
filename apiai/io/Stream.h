@@ -11,28 +11,43 @@ namespace ai {
         class Stream {
         public:
 
-            bool isAtEnd();
+            bool atEnd();
 
-            bool isSealed();
+            bool sealed();
 
-            void seal();
+            void sealed(bool sealed);
+
+            std::string str();
+
+            void str(const std::string &string);
 
             Stream &write(const char *source, std::streamsize count);
 
             std::streamsize read(char *target, std::streamsize count);
 
+            void swap(Stream &stream);
+
+            void reset();
+
         private:
 
-            bool unsafeIsAtEnd();
+            bool unsafeAtEnd();
 
-            bool unsafeIsSealed() const;
+            bool unsafeSealed() const;
 
-            void unsafeSeal();
+            void unsafeSealed(bool sealed);
 
             bool unsafeGood() const;
 
+            std::string unsafeStr() const;
+
+            void unsafeStr(const std::string &string);
+
             std::streampos unsafeTellg();
+            void unsafeSeekg(std::streampos pos);
+
             std::streampos unsafeTellp();
+            void unsafeSeekp(std::streampos pos);
 
             std::streamsize unsafeInAvail();
 
@@ -41,12 +56,16 @@ namespace ai {
 
             void unsafeFlush();
 
-            bool sealed = false;
+            void unsafeSwap(Stream &stream);
 
-            std::condition_variable conditionVariable;
-            std::mutex mutex;
+            void unsafeReset();
 
-            std::stringstream stringstream;
+            bool sealed_ = false;
+
+            std::condition_variable conditionVariable_;
+            std::mutex mutex_;
+
+            std::stringstream stringstream_;
         };
     }
 }

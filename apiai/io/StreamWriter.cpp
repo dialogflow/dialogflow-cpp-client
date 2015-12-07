@@ -6,35 +6,39 @@
 namespace ai {
     namespace io {
 
-        StreamWriter::StreamWriter(Stream &stream) : stream(stream) {
+        StreamWriter::StreamWriter(Stream &stream) : stream_(stream) {
         }
 
-        StreamWriter::StreamWriter(const StreamWriter &writer) : stream(writer.stream) {
+        StreamWriter::StreamWriter(const StreamWriter &writer) : stream_(writer.stream_) {
         }
 
         StreamWriter &StreamWriter::write(const char *source, std::streamsize count) {
-            this->stringstream.write(source, count);
-            this->stringstream.flush();
+            this->stringstream_.write(source, count);
+            this->stringstream_.flush();
 
             return *this;
         }
 
-        bool StreamWriter::isSealed() {
-            return this->stream.isSealed();
+        bool StreamWriter::sealed() {
+            return this->stream_.sealed();
         }
 
-        void StreamWriter::seal() {
-            this->stream.seal();
+        void StreamWriter::sealed(bool sealed) {
+            this->stream_.sealed(sealed);
+        }
+
+        void StreamWriter::str(const std::string &string) {
+            this->stream_.str(string);
         }
 
         void StreamWriter::flush() {
-            const std::streampos gpos = this->stringstream.tellg(); // input
-            const std::streampos ppos = this->stringstream.tellp(); // output
+            const std::streampos gpos = this->stringstream_.tellg(); // input
+            const std::streampos ppos = this->stringstream_.tellp(); // output
             if (gpos < ppos) {
                 const std::streamsize size = ppos - gpos;
                 char *characters = new char[size];
-                this->stringstream.read(characters, size);
-                this->stream.write(characters, size);
+                this->stringstream_.read(characters, size);
+                this->stream_.write(characters, size);
                 delete [] characters;
                 characters = NULL;
             }

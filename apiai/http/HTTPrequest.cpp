@@ -6,33 +6,18 @@
 #include <curl/curl.h>
 #include "../Exception.h"
 
+#include "../io/Stream.h"
+#include "../io/StreamReader.h"
+#include "../io/StreamWriter.h"
+
 namespace ai {
 
 class HTTPRequest::HTTPRequestImpl {
 private:
-    class Upload {
-    public:
-        std::string data;
-        int offset;
 
-        Upload(std::string data): data(data), offset(0) {}
-    };
-
-    static size_t read_callback(void *ptr, size_t size, size_t nmemb, Upload *upload)
+    static size_t read_callback(char *ptr, size_t size, size_t nmemb, io::StreamReader *reader)
     {
-        auto total_memory = size * nmemb;
-
-        auto avaiable = std::min(total_memory, upload->data.size() - upload->offset);
-
-        if (avaiable > 0) {
-            memcpy(ptr, upload->data.c_str() + upload->offset, avaiable);
-
-            upload->offset += avaiable;
-
-            return avaiable;
-        }
-
-        return 0; //CURL_READFUNC_ABORT
+        return reader->read(ptr, size * nmemb);
     }
 
     static uint write_callback(char *in, uint size, uint nmemb, std::string *response)
@@ -42,8 +27,9 @@ private:
     }
 
     CURL *curl;
-    std::string body;
     std::string URL;
+
+    io::Stream bodyStream;
 
     std::map<std::string, std::string> headers;
 public:
@@ -67,26 +53,32 @@ public:
         curl_easy_setopt(curl, CURLOPT_URL, URL.c_str());
     }
 
-    const std::string &getBody() const
+    std::string getBody()
     {
-        return body;
+        return this->bodyStream.str();
     }
 
     void setBody(const std::string &value)
     {
-        body = value;
+        this->bodyStream.str(value);
+        this->bodyStream.sealed(true);
+    }
+
+    io::StreamWriter getBodyStreamWriter() {
+        return this->bodyStream;
     }
 
     std::string perform() {
-        auto upload = Upload(body);
+        {
+            if (this->getBody().length() > 0) {
+                io::StreamReader bodyStreamReader(this->bodyStream);
 
-        if (body.length() > 0) {
-            curl_easy_setopt(curl, CURLOPT_POST, 1L);
+                curl_easy_setopt(curl, CURLOPT_POST, 1L);
 
-            curl_easy_setopt(curl, CURLOPT_READFUNCTION, read_callback);
-            curl_easy_setopt(curl, CURLOPT_READDATA, &upload);
+                curl_easy_setopt(curl, CURLOPT_READFUNCTION, read_callback);
+                curl_easy_setopt(curl, CURLOPT_READDATA, &bodyStreamReader);
+            }
         }
-
 //        curl_easy_setopt(curl, CURLOPT_CONV_FROM_NETWORK_FUNCTION, NULL);
 //        curl_easy_setopt(curl, CURLOPT_ENCODING, "gzip, deflate");
 
@@ -151,7 +143,7 @@ void HTTPRequest::setURL(const std::string &value)
     impl->setURL(value);
 }
 
-const std::string &HTTPRequest::getBody() const
+std::string HTTPRequest::getBody()
 {
     return impl->getBody();
 }
@@ -159,6 +151,11 @@ const std::string &HTTPRequest::getBody() const
 void HTTPRequest::setBody(const std::string &value)
 {
     impl->setBody(value);
+}
+
+io::StreamWriter HTTPRequest::getBodyStreamWriter()
+{
+    return impl->getBodyStreamWriter();
 }
 
 std::string HTTPRequest::perform()

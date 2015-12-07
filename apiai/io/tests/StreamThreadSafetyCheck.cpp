@@ -58,7 +58,7 @@ namespace ai {
                 writer.write(stringToWrite.c_str(), stringToWrite.size());
                 writer.flush();
             }
-            writer.seal();
+            writer.sealed(true);
 
             return NULL;
         }
@@ -147,7 +147,7 @@ namespace ai {
 
                 length -= sizeOfBuffer;
             }
-            writer.seal();
+            writer.sealed(true);
 
             delete [] buffer;
             buffer = NULL;
@@ -183,7 +183,7 @@ namespace ai {
                 std::cout << read << " bytes are written." << std::endl;
                 __mutex_print.unlock();
 
-                if (reader.isAtEnd()) {
+                if (reader.atEnd()) {
                     break;
                 }
             }
@@ -220,7 +220,7 @@ namespace ai {
         void StreamThreadSafetyCheck::waitUntilStreamIsEmptied() {
             std::unique_lock<std::mutex> lock(__mutex_stream_emptiness);
             __condition_variable_stream_emptiness.wait(lock, [] {
-                return getStreamReader().isAtEnd();
+                return getStreamReader().atEnd();
             });
         }
 

@@ -7,32 +7,42 @@ namespace ai {
         /// Thread-safe methods
         ///
 
-        bool Stream::isAtEnd() {
-            std::unique_lock<std::mutex> lock(this->mutex);
-            return this->unsafeIsAtEnd();
+        bool Stream::atEnd() {
+            std::unique_lock<std::mutex> lock(this->mutex_);
+            return this->unsafeAtEnd();
         }
 
-        bool Stream::isSealed() {
-            std::unique_lock<std::mutex> lock(this->mutex);
-            return this->unsafeIsSealed();
+        bool Stream::sealed() {
+            std::unique_lock<std::mutex> lock(this->mutex_);
+            return this->unsafeSealed();
         }
 
-        void Stream::seal() {
-            std::unique_lock<std::mutex> lock(this->mutex);
-            this->unsafeSeal();
+        void Stream::sealed(bool sealed) {
+            std::unique_lock<std::mutex> lock(this->mutex_);
+            this->unsafeSealed(sealed);
+        }
+
+        std::string Stream::str() {
+            std::unique_lock<std::mutex> lock(this->mutex_);
+            return this->unsafeStr();
+        }
+
+        void Stream::str(const std::string &string) {
+            std::unique_lock<std::mutex> lock(this->mutex_);
+            this->unsafeStr(string);
         }
 
         Stream &Stream::write(const char *source, std::streamsize count) {
             {
-                std::unique_lock<std::mutex> lock(this->mutex);
-                if (this->unsafeIsSealed()) {
+                std::unique_lock<std::mutex> lock(this->mutex_);
+                if (this->unsafeSealed()) {
                     return *this;
                 }
 
                 this->unsafeWrite(source, count);
                 this->unsafeFlush();
             }
-            this->conditionVariable.notify_all();
+            this->conditionVariable_.notify_all();
 
             return *this;
         }
@@ -40,13 +50,13 @@ namespace ai {
         std::streamsize Stream::read(char *target, std::streamsize count) {
             std::streamsize read = 0;
             {
-                std::unique_lock<std::mutex> lock(this->mutex);
+                std::unique_lock<std::mutex> lock(this->mutex_);
                 if (this->unsafeGood()) {
-                    if (this->unsafeIsAtEnd()) {
+                    if (this->unsafeAtEnd()) {
                         return read;
                     }
 
-                    this->conditionVariable.wait(lock, [this]{
+                    this->conditionVariable_.wait(lock, [this]{
                         return (this->unsafeInAvail() > 0);
                     });
 
@@ -61,34 +71,60 @@ namespace ai {
             return read;
         }
 
+        void Stream::swap(Stream &stream) {
+            std::unique_lock<std::mutex> lock(this->mutex_);
+            this->unsafeSwap(stream);
+        }
+
+        void Stream::reset() {
+            std::unique_lock<std::mutex> lock(this->mutex_);
+            this->unsafeReset();
+        }
+
         ///
         /// Thread-unsafe methods
         ///
 
-        bool Stream::unsafeIsAtEnd() {
-            return (this->unsafeIsSealed()) && (this->unsafeInAvail() == 0);
+        bool Stream::unsafeAtEnd() {
+            return (this->unsafeSealed()) && (this->unsafeInAvail() == 0);
         }
 
-        bool Stream::unsafeIsSealed() const {
-            return this->sealed;
+        bool Stream::unsafeSealed() const {
+            return this->sealed_;
         }
 
-        void Stream::unsafeSeal() {
-            if (!this->unsafeIsSealed()) {
-                this->sealed = true;
-            }
+        void Stream::unsafeSealed(bool sealed) {
+            this->sealed_ = sealed;
         }
 
         bool Stream::unsafeGood() const {
-            return this->stringstream.good();
+            return this->stringstream_.good();
+        }
+
+        std::string Stream::unsafeStr() const {
+            return this->stringstream_.str();
+        }
+
+        void Stream::unsafeStr(const std::string &string) {
+            this->stringstream_.str(string);
+            this->unsafeSeekp(string.length());
+            this->unsafeSeekg(0);
         }
 
         std::streampos Stream::unsafeTellg() {
-            return this->stringstream.tellg();
+            return this->stringstream_.tellg();
+        }
+
+        void Stream::unsafeSeekg(std::streampos pos) {
+            this->stringstream_.seekg(pos);
         }
 
         std::streampos Stream::unsafeTellp() {
-            return this->stringstream.tellp();
+            return this->stringstream_.tellp();
+        }
+
+        void Stream::unsafeSeekp(std::streampos pos) {
+            this->stringstream_.seekp(pos);
         }
 
         std::streamsize Stream::unsafeInAvail() {
@@ -99,19 +135,29 @@ namespace ai {
         }
 
         std::stringstream &Stream::unsafeWrite(const char *source, std::streamsize count) {
-            this->stringstream.write(source, count);
+            this->stringstream_.write(source, count);
 
-            return this->stringstream;
+            return this->stringstream_;
         }
 
         std::stringstream &Stream::unsafeRead(char *target, std::streamsize count) {
-            this->stringstream.read(target, count);
+            this->stringstream_.read(target, count);
 
-            return this->stringstream;
+            return this->stringstream_;
         }
 
         void Stream::unsafeFlush() {
-            this->stringstream.flush();
+            this->stringstream_.flush();
+        }
+
+        void Stream::unsafeSwap(Stream &stream) {
+            this->stringstream_.swap(stream.stringstream_);
+            this->sealed(stream.sealed());
+        }
+
+        void Stream::unsafeReset() {
+            Stream stream;
+            this->unsafeSwap(stream);
         }
     }
 }

@@ -17,11 +17,15 @@ namespace ai {
 
             std::streamsize read(char *target, std::streamsize count);
 
-            bool isAtEnd();
+            bool atEnd();
+
+            bool sealed();
+
+            std::string str();
 
         private:
 
-            Stream &stream;
+            Stream &stream_;
         };
     }
 }

@@ -37,7 +37,7 @@ public:
 };
 
 #ifndef CHECKS_STREAM_THREAD_SAFETY
-    #define CHECKS_STREAM_THREAD_SAFETY 1
+//    #define CHECKS_STREAM_THREAD_SAFETY 1
 #endif
 
 #include "io/tests/StreamThreadSafetyCheck.h"
