@@ -9,7 +9,7 @@
 #include <apiai/query/request/Parameters.h>
 
 #ifndef RECORD_VOICE_ASYNCHRONOUSLY
-    #define RECORD_VOICE_ASYNCHRONOUSLY 1
+//    #define RECORD_VOICE_ASYNCHRONOUSLY 1
 #endif
 
 static void *recordVoice(ai::query::request::VoiceRecorder *const recorder) {

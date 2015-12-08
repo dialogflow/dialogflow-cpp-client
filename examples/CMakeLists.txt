@@ -16,3 +16,17 @@ else(BUILD_SHARED_LIBS)
 endif()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/test.txt ${CMAKE_CURRENT_BINARY_DIR}/test.txt COPYONLY)
+
+find_package(Portaudio REQUIRED)
+
+if(PORTAUDIO_FOUND)
+    include_directories(${PORTAUDIO_INCLUDE_DIRS})
+    add_executable(portaudio_example portaudio_example.cpp)
+    target_link_libraries(portaudio_example ${PORTAUDIO_LIBRARIES})
+
+    if(BUILD_SHARED_LIBS)
+        target_link_libraries(portaudio_example apiai)
+    else(BUILD_SHARED_LIBS)
+        target_link_libraries(portaudio_example apiai_static)
+    endif()
+endif(PORTAUDIO_FOUND)

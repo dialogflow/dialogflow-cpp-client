@@ -3,6 +3,9 @@ cmake_minimum_required ( VERSION 3.0 )
 project ( apiai )
 enable_testing()
 
+#portaudio trip
+SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
+
 #OPTION(APIAI_WITH_TESTS "Compile and run tests." ON)
 #OPTION(APIAI_WITH_POST_BUILD_UNITTEST "Automatically run unit-tests as a post build step" ON)
 OPTION(APIAI_WITH_PKGCONFIG_SUPPORT "Generate and install .pc files" ON)
