@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
             );
 
     auto request = std::unique_ptr<ai::query::request::VoiceRequest>(
-        new ai::query::request::VoiceRequest(/*filePath,*/ "en", credentials, params)
+        new ai::query::request::VoiceRequest("en", credentials, params)
     );
 
     request->setVoiceSource([](ai::query::request::VoiceRecorder *const recorder) {
