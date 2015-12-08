@@ -11,6 +11,8 @@
       T(T &&) = delete;
 
 namespace ai {
+    class Credentials;
+
     namespace io {
         class StreamWriter;
     }
@@ -21,13 +23,14 @@ namespace ai {
         RequestConnection(std::string URL);
 
         std::string performConnection();
+        void authentificate(const Credentials& credentials);
 
         virtual ~RequestConnection();
-    private:
-        NON_COPYABLE_NOR_MOVABLE(RequestConnection)
 
         class RequestConnectionImpl;
         std::unique_ptr<RequestConnectionImpl> impl;
+    private:
+        NON_COPYABLE_NOR_MOVABLE(RequestConnection)
     };
 }
 

@@ -14,7 +14,7 @@
 #include "cJSONUtils.h"
 #include <apiai/exceptions/JSONException.h>
 
-#include <apiai/http/HTTPrequest.h>
+#include "../http/RequestConnectionImpl.h"
 
 using namespace std;
 using namespace ai::query;
@@ -30,8 +30,7 @@ QueryRequest::QueryRequest(const std::string &language,
         throw std::invalid_argument("Language cannot be zero size");
     }
 
-    httpRequest
-            .addHeader("Content-Type", "application/json; charset=utf-8")
+    impl->addHeader("Content-Type", "application/json; charset=utf-8")
             .addHeader("Transfer-Encoding", "chunked");
 }
 
@@ -40,7 +39,7 @@ const std::string &QueryRequest::getLanguage() const
     return language;
 }
 
-Response QueryRequest::fromResponse(const std::string &response) {
+Response QueryRequest::serialize(const std::string &response) {
     cout << response << endl;
 
     cJSON *root = cJSON_Parse(response.c_str());

@@ -6,7 +6,7 @@
 #include <apiai/query/request/QueryText.h>
 #include "request/QueryTextSerialize.h"
 
-#include <apiai/http/HTTPrequest.h>
+#include "../http/RequestConnectionImpl.h"
 
 using namespace std;
 using namespace ai::query::request;
@@ -86,7 +86,7 @@ Response TextQueryRequest::perform() {
 
 //    cout << json << endl;
 
-    httpRequest.setBody(json);
+    impl->setBody(json);
     free(json);
 
     cJSON_Delete(root);

@@ -6,38 +6,24 @@
 #include <sstream>
 
 #include <apiai/Credentials.h>
-#include <apiai/http/HTTPrequest.h>
+
+#include "RequestSerialize.h"
 
 namespace ai {
     template <typename T>
-    class Request
-    {
+    class Request: protected RequestSerialize<T> {
+    public:
+        virtual T perform() {
+            return RequestSerialize<T>::perform();
+        }
+    protected:
+        Request(const Credentials &credentials): RequestSerialize<T>(std::string("URL")), credentials(credentials)
+        {
+
+        }
     private:
         Request(const Request&);
-        // TODO: It's also necessary to disallow assignment. It's better use DISALLOW_COPY_AND_ASSIGN by Google.
-        Credentials credentials; // TODO: Is it necessary to keep credentials?
-    protected:
-        HTTPRequest httpRequest;
-        virtual T fromResponse(const std::string &response) = 0;
-    public:
-        Request(const Credentials &credentials): credentials(credentials), httpRequest("https://api.api.ai/v1/query?v=20150910")
-        {
-            std::ostringstream authorization;
-
-            authorization << "Bearer ";
-            authorization << credentials.getClientAccessToken();
-
-            httpRequest.
-                    addHeader("Authorization", authorization.str())
-                    .addHeader("ocp-apim-subscription-key", credentials.getSubscribtionKey());
-        }
-
-        virtual T perform() {
-            auto response = httpRequest.perform();
-            return this->fromResponse(response);
-        }
-
-        virtual ~Request() {}
+        Credentials credentials;
     };
 }
 

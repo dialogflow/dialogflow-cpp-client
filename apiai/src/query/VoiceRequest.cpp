@@ -10,6 +10,8 @@
 #include <apiai/query/response/Response.h>
 #include "../io/StreamWriter.h"
 
+#include "../http/RequestConnectionImpl.h"
+
 using namespace std;
 using namespace ai::query::request;
 using namespace ai::query::response;
@@ -86,14 +88,14 @@ VoiceRequest::VoiceRequest(const std::string &language,
     const std::string contentType = details::string_format(
         "multipart/form-data; boundary=%s", this->boundary_.c_str()
     );
-    httpRequest
-            .addHeader("Accept", "application/json; charset=utf-8")
+    impl->
+             addHeader("Accept", "application/json; charset=utf-8")
             .addHeader("Content-Type", contentType)
             .addHeader("Transfer-Encoding", "chunked");
 }
 
 Response VoiceRequest::perform() {
-    ai::io::StreamWriter writer = httpRequest.getBodyStreamWriter();
+    ai::io::StreamWriter writer = impl->getBodyStreamWriter();
 
     writer.write(details::string_format("--%s\r\n", this->boundary_.c_str()));
 
@@ -127,7 +129,7 @@ Response VoiceRequest::perform() {
         writer.flush();
 
         this->voiceSource_(
-            new VoiceRecorderImpl(this->boundary_, httpRequest.getBodyStreamWriter())
+            new VoiceRecorderImpl(this->boundary_, impl->getBodyStreamWriter())
         );
     }
     else {

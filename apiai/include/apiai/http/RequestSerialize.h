@@ -11,7 +11,8 @@ namespace ai{
             return this->serialize(this->performConnection());
         }
     protected:
-        virtual T serialize(std::string) = 0;
+        RequestSerialize(std::string URL): RequestConnection(URL) {}
+        virtual T serialize(const std::string& response) = 0;
     };
 }
 
