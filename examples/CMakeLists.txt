@@ -17,7 +17,7 @@ endif()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/test.txt ${CMAKE_CURRENT_BINARY_DIR}/test.txt COPYONLY)
 
-find_package(Portaudio REQUIRED)
+find_package(Portaudio)
 
 if(PORTAUDIO_FOUND)
     include_directories(${PORTAUDIO_INCLUDE_DIRS})
