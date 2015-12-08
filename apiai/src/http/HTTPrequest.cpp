@@ -79,8 +79,6 @@ public:
                 curl_easy_setopt(curl, CURLOPT_READDATA, &bodyStreamReader);
             }
         }
-//        curl_easy_setopt(curl, CURLOPT_CONV_FROM_NETWORK_FUNCTION, NULL);
-//        curl_easy_setopt(curl, CURLOPT_ENCODING, "gzip, deflate");
 
         struct curl_slist *curl_headers = NULL;
 

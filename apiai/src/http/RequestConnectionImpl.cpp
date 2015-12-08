@@ -1,0 +1,114 @@
+#include "RequestConnectionImpl.h"
+
+#include <apiai/exceptions/Exception.h>
+
+using namespace ai;
+
+RequestConnection::RequestConnectionImpl::RequestConnectionImpl(const std::string &URL)
+{
+    curl = curl_easy_init();
+    if (!curl) {
+        throw Exception("Cannot init CURL object.");
+    }
+
+    curl_easy_setopt(curl, CURLOPT_URL, URL.c_str());
+}
+
+size_t RequestConnection::RequestConnectionImpl::read_callback(char *ptr, size_t size, size_t nmemb, io::StreamReader *reader)
+{
+    return reader->read(ptr, size * nmemb);
+}
+
+uint RequestConnection::RequestConnectionImpl::write_callback(char *in, uint size, uint nmemb, std::string *response)
+{
+  response->append(in, size * nmemb);
+  return size * nmemb;
+}
+
+const std::string &RequestConnection::RequestConnectionImpl::getURL() const
+{
+    return URL;
+}
+
+void RequestConnection::RequestConnectionImpl::setURL(const std::string &value)
+{
+    URL = value;
+    curl_easy_setopt(curl, CURLOPT_URL, URL.c_str());
+}
+
+std::string RequestConnection::RequestConnectionImpl::getBody()
+{
+    return this->bodyStream.str();
+}
+
+void RequestConnection::RequestConnectionImpl::setBody(const std::string &value)
+{
+    this->bodyStream.str(value);
+    this->bodyStream.sealed(true);
+}
+
+io::StreamWriter RequestConnection::RequestConnectionImpl::getBodyStreamWriter() {
+    return this->bodyStream;
+}
+
+const std::map<std::string, std::string> &RequestConnection::RequestConnectionImpl::getHeaders() const
+{
+    return headers;
+}
+
+void RequestConnection::RequestConnectionImpl::setHeaders(const std::map<std::string, std::string> &value)
+{
+    headers = value;
+}
+
+RequestConnection::RequestConnectionImpl& RequestConnection::RequestConnectionImpl::addHeader(const std::string &name, const std::string &value) {
+    headers[name] = value;
+
+    return *this;
+}
+
+std::string RequestConnection::RequestConnectionImpl::performConnection()
+{
+    {
+        if (this->getBody().length() > 0) {
+            io::StreamReader bodyStreamReader(this->bodyStream);
+
+            curl_easy_setopt(curl, CURLOPT_POST, 1L);
+
+            curl_easy_setopt(curl, CURLOPT_READFUNCTION, read_callback);
+            curl_easy_setopt(curl, CURLOPT_READDATA, &bodyStreamReader);
+        }
+    }
+
+    struct curl_slist *curl_headers = NULL;
+
+    for (auto &key_value :headers) {
+        auto header = std::ostringstream();
+        header << key_value.first << ": " << key_value.second;
+
+        curl_headers = curl_slist_append(curl_headers, header.str().c_str());
+    }
+
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, curl_headers);
+
+    auto response = std::string();
+
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+
+
+    CURLcode perform_result = curl_easy_perform(curl);
+
+    curl_slist_free_all(curl_headers);
+
+    if (perform_result != CURLE_OK) {
+        throw Exception("Failure perform request");
+    }
+
+    return response;
+}
+
+RequestConnection::RequestConnectionImpl::~RequestConnectionImpl()
+{
+    curl_easy_cleanup(curl);
+}
