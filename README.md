@@ -4,6 +4,7 @@ C++ library for api.ai
 * [Overview](#overview)
 * [Prerequisites](#prerequisites)
 * [Building and Installing](#buildingandinstalling)
+* [Examples](#examples)
 * [Third Party Libraries](#thirdpartylibraries)
 
 ## <a name="overview"></a>Overview
@@ -51,6 +52,9 @@ In your CMakeLists.txt add
 ```
 add_subdirectory(libapiai)
 ```
+
+## <a name="examples"></a>Examples
+Your can see [examples](examples) for more information about how to use library.
 
 ## <a name="thirdpartylibraries"></a>Third Party Libraries
 * cjson (http://sourceforge.net/projects/cjson/)
