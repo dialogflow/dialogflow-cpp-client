@@ -11,9 +11,10 @@ if (Boost_FOUND)
 
     target_link_libraries (streams_test ${Boost_LIBRARIES})
 
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sounds/sound1.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/sound1.wav COPYONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sounds/sound2.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/sound2.wav COPYONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sounds/speech_d.wav ${CMAKE_CURRENT_BINARY_DIR}/io/tests/sounds/speech_d.wav COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sounds/sound1.wav ${CMAKE_CURRENT_BINARY_DIR}/io/sounds/sound1.wav COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sounds/sound2.wav ${CMAKE_CURRENT_BINARY_DIR}/io/sounds/sound2.wav COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sounds/speech_d.wav ${CMAKE_CURRENT_BINARY_DIR}/io/sounds/speech_d.wav COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sounds/count-hammer.raw ${CMAKE_CURRENT_BINARY_DIR}/vad/sounds/count-hammer.raw COPYONLY)
 
     if(BUILD_SHARED_LIBS)
         target_link_libraries(streams_test apiai)

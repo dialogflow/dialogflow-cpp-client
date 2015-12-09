@@ -1,4 +1,4 @@
-file(GLOB_RECURSE SOURCES *.hpp *.cpp *.h)
+file(GLOB_RECURSE SOURCES *.hpp *.cpp *.h *.c)
 
 set(SOURCES ${SOURCES} PARENT_SCOPE)
 

@@ -9,12 +9,16 @@
 #include <apiai/query/request/Parameters.h>
 
 #ifndef RECORD_VOICE_ASYNCHRONOUSLY
-//    #define RECORD_VOICE_ASYNCHRONOUSLY 1
+    #define RECORD_VOICE_ASYNCHRONOUSLY 1
 #endif
 
 static void *recordVoice(ai::query::request::VoiceRecorder *const recorder) {
-    std::string filePath(getcwd(NULL, 0));
-    filePath.append("/../apiai/io/tests/sounds/sound2.wav");
+    char *cwd = getcwd(NULL, 0);
+    std::string filePath(cwd);
+    free(cwd);
+    cwd = NULL;
+
+    filePath.append("/../tests/io/sounds/sound2.wav");
 
     std::cout << "Voice source is located at " << filePath << std::endl;
 
