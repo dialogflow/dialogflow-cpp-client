@@ -17,9 +17,9 @@ namespace ai {
             return RequestSerialize<T>::perform();
         }
     protected:
-        Request(const Credentials &credentials): RequestSerialize<T>(std::string("URL")), credentials(credentials)
+        Request(const Credentials &credentials): RequestSerialize<T>(std::string("https://api.api.ai/v1/query?v=20150910")), credentials(credentials)
         {
-
+            this->authentificate(credentials);
         }
     private:
         Request(const Request&);

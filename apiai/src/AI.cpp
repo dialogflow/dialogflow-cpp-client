@@ -2,38 +2,54 @@
 #include <curl/curl.h>
 
 #include <iostream>
+#include <sstream>
 
-namespace ai {
-    std::shared_ptr<Credentials> AI::credentials = std::shared_ptr<Credentials>(nullptr);
+using namespace ai;
+using namespace ai::query::request;
 
-    void AI::global_clean() {
-        curl_global_cleanup();
-    }
+using namespace std;
 
-    void AI::global_init() {
-        curl_global_init(CURL_GLOBAL_DEFAULT);
-    }
+std::shared_ptr<Credentials> AI::credentials = std::shared_ptr<Credentials>(nullptr);
 
-    void AI::configure(const Credentials &credentials) {
-        AI::credentials = std::shared_ptr<Credentials>(new Credentials(credentials));
-    }
+std::shared_ptr<Parameters> AI::parameters = std::shared_ptr<Parameters>(nullptr);
 
-    void AI::configure(const std::string &clientAccessToken, const std::string &subscribtionKey) {
-        AI::configure(Credentials(clientAccessToken, subscribtionKey));
-    }
+void AI::global_clean()
+{
+    curl_global_cleanup();
+}
 
-    Service& AI::sharedService() {
-        static std::once_flag once_flag;
-        static std::shared_ptr<Service> service = nullptr;
+void AI::global_init()
+{
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+}
 
-        std::call_once(once_flag, [](){
-            if (AI::credentials.get() == NULL) {
-                exit(-1); //api should be configured with ::configure method(s)
-            } else {
-                service = std::shared_ptr<Service>(new Service(*AI::credentials));
-            }
-        });
+void AI::configure(const Credentials &credentials)
+{
+    AI::credentials = std::shared_ptr<Credentials>(new Credentials(credentials));
+}
 
-        return *service;
-    }
+void AI::configure(const std::string &clientAccessToken, const std::string &subscribtionKey)
+{
+    AI::configure(Credentials(clientAccessToken, subscribtionKey));
+}
+
+void AI::setupDefaultParameters(const Parameters& parameters)
+{
+    AI::parameters = shared_ptr<Parameters>(new Parameters(parameters));
+}
+
+Service& AI::sharedService() {
+    static std::once_flag once_flag;
+    static std::shared_ptr<Service> service = nullptr;
+
+    std::call_once(once_flag, [](){
+        if (AI::credentials.get() == nullptr || AI::parameters.get() == nullptr) {
+            exit(-1);   // api should be configured with ::configure method(s)
+                        // api should be configured with ::setupDefaultParameters method
+        } else {
+            service = std::shared_ptr<Service>(new Service(*AI::credentials, *AI::parameters));
+        }
+    });
+
+    return *service;
 }
