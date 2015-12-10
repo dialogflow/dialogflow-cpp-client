@@ -31,6 +31,10 @@ namespace ai {
             this->stream_.sealed(sealed);
         }
 
+        std::string StreamWriter::str() {
+            return this->stream_.str();
+        }
+
         void StreamWriter::str(const std::string &string) {
             this->stream_.str(string);
         }
