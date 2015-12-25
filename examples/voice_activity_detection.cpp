@@ -7,7 +7,9 @@
 
 #include <unistd.h>
 
-#include <apiai/Types.h>
+#include <memory>
+
+
 
 VADState analyseAudioFile() {
     char *cwd = getcwd(NULL, 0);
@@ -30,19 +32,18 @@ VADState analyseAudioFile() {
 
     const size_t bufferSize = 160;
 
-    ai::unique_ptr<short []> buffer(new short[bufferSize]);
+    std::shared_ptr<short> buffer(new short[bufferSize]);
     while (length > 0) {
         const size_t read = (bufferSize > length) ? length : bufferSize;
 
         fstream.read((char *)buffer.get(), read * sizeof(short));
-        state = detector.analyseFrames(buffer.get(), read);
+        state = detector.analyseFrames((const short *)buffer.get(), read);
         if ((state != VADStateUnknown) && (state != VADStateInProgress)) {
             break;
         }
 
         length -= read;
     }
-    buffer.reset(nullptr);
 
     std::cout << "Analysis has been finished with result: " << state << std::endl;
 

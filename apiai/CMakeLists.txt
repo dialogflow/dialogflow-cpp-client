@@ -47,10 +47,6 @@ if(BUILD_SHARED_LIBS)
     target_link_libraries(apiai cJson)
     target_link_libraries(apiai curl)
 
-    if (USE_BOOST)
-        target_link_libraries(apiai ${Boost_LIBRARIES})
-    endif()
-
     install( TARGETS apiai ${INSTALL_EXPORT}
              RUNTIME DESTINATION ${RUNTIME_INSTALL_DIR}
              LIBRARY DESTINATION ${LIBRARY_INSTALL_DIR}
@@ -69,10 +65,6 @@ if(BUILD_STATIC_LIBS)
     target_link_libraries(apiai_static indent_stream_library)
     target_link_libraries(apiai_static cJson)
     target_link_libraries(apiai_static curl)
-
-    if (USE_BOOST)
-        target_link_libraries(apiai_static ${Boost_LIBRARIES})
-    endif()
 
     install( TARGETS apiai_static ${INSTALL_EXPORT}
              RUNTIME DESTINATION ${RUNTIME_INSTALL_DIR}

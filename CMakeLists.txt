@@ -8,7 +8,7 @@ cmake_minimum_required ( VERSION 3.0 )
 project ( apiai )
 enable_testing()
 
-#portaudio trip
+#for portaudio find
 SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 #OPTION(APIAI_WITH_TESTS "Compile and run tests." ON)
@@ -22,7 +22,7 @@ SET(CMAKE_BUILD_TYPE Debug)
 IF(NOT WIN32)
     IF(NOT CMAKE_BUILD_TYPE)
         SET(CMAKE_BUILD_TYPE Release CACHE STRING
-            "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel Coverage."
+            "Choose the type of build, options are: None b Release RelWithDebInfo MinSizeRel Coverage."
             FORCE)
     ENDIF()
 ENDIF()
@@ -36,24 +36,6 @@ elseif(COMPILER_SUPPORTS_CXX0X)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 else()
         message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
-endif()
-
-set(USE_BOOST OFF)
-
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "5.0.0")
-#    set(Boost_USE_STATIC_LIBS        ON) # only find static libs
-#    set(Boost_USE_MULTITHREADED      ON)
-#    set(Boost_USE_STATIC_RUNTIME    OFF)
-
-    find_package(Boost 1.55 REQUIRED system)
-    if (Boost_FOUND)
-        include_directories(${Boost_INCLUDE_DIRS})
-        set(USE_BOOST ON)
-    else()
-        message(FATAL_ERROR "Current vesion GCC required use boost.")
-    endif()
-  endif()
 endif()
 
 find_package(CURL REQUIRED)
