@@ -23,4 +23,6 @@ if (Boost_FOUND)
     endif()
 
     add_test(streams_test streams_test)
+elseif(Boost_FOUND)
+    message(WARNING "Not found BOOST with components `unit_test_framework`. Test could not be compiled. It will be passed.")
 endif(Boost_FOUND)
