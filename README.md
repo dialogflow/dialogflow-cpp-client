@@ -8,10 +8,10 @@ C++ library for api.ai
 * [Third Party Libraries](#thirdpartylibraries)
 
 ## <a name="overview"></a>Overview
-The API.AI C++ library makes it easy to integrate speech recognition with API.AI natural language processing API. API.AI allows using voice commands and integration with dialog scenarios defined for a particular agent in API.AI.
+The API.AI C++ library makes it easy to integrate speech recognition with Api.ai natural language processing API. Api.ai allows using voice commands and integration with dialog scenarios defined for a particular agent in API.AI.
 
 ## <a name="prerequisites"></a>Prerequsites
-* Create an [API.AI account](http://api.ai)
+* Create an [Api.ai account](https://api.ai)
 
 ## <a name="buildingandinstalling"></a>Building and Installing
 ### Configuring the submodules
