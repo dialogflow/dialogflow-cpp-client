@@ -5,6 +5,10 @@
 #include <apiai/vad/VADState.h>
 #include <apiai/vad/VoiceActivityDetector.h>
 
+#include <unistd.h>
+
+#include <apiai/Types.h>
+
 VADState analyseAudioFile() {
     char *cwd = getcwd(NULL, 0);
     std::string filePath(cwd);
@@ -15,7 +19,7 @@ VADState analyseAudioFile() {
 
     std::cout << "Analysing: " << filePath << std::endl;
 
-    std::ifstream fstream = std::ifstream(filePath.c_str(), std::ifstream::binary);
+    std::ifstream fstream(filePath.c_str(), std::ifstream::binary);
 
     fstream.seekg(0, fstream.end);
     std::streamsize length = fstream.tellg();
@@ -25,7 +29,8 @@ VADState analyseAudioFile() {
     ai::vad::VoiceActivityDetector detector;
 
     const size_t bufferSize = 160;
-    std::unique_ptr<short []> buffer(new short[bufferSize]);
+
+    ai::unique_ptr<short []> buffer(new short[bufferSize]);
     while (length > 0) {
         const size_t read = (bufferSize > length) ? length : bufferSize;
 

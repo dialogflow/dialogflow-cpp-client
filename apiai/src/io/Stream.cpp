@@ -1,5 +1,9 @@
 #include "Stream.h"
 
+#include <apiai/Types.h>
+
+using namespace std;
+
 namespace ai {
     namespace io {
 
@@ -155,7 +159,18 @@ namespace ai {
         }
 
         void Stream::unsafeSwap(Stream &stream) {
-            this->stringstream_.swap(stream.stringstream_);
+            #if GCC_COMPILER
+                #if GCC_VERSION >= 50000
+                    this->stringstream_.swap(stream.stringstream_);
+                #else
+                    auto tmp = string(stringstream_.str());
+                    stringstream_.str(stream.stringstream_.str());
+                    stream.stringstream_.str(tmp.c_str());
+                #endif
+            #else
+                this->stringstream_.swap(stream.stringstream_);
+            #endif
+
             this->sealed(stream.sealed());
         }
 

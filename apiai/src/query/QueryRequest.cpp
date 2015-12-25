@@ -16,6 +16,8 @@
 
 #include "../http/RequestConnectionImpl.h"
 
+#include <apiai/exceptions/InvalidArgumentException.h>
+
 using namespace std;
 using namespace ai::query;
 using namespace ai::query::request;
@@ -27,7 +29,7 @@ QueryRequest::QueryRequest(const std::string &language,
     Request(credentials), language(language), parameters(parameters)
 {
     if (language.size() == 0) {
-        throw std::invalid_argument("Language cannot be zero size");
+        throw InvalidArgumentException("Language cannot be zero size");
     }
 
     impl->addHeader("Content-Type", "application/json; charset=utf-8")

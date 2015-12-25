@@ -8,6 +8,8 @@
 #include <apiai/query/VoiceRequest.h>
 #include <apiai/query/request/Parameters.h>
 
+#include <unistd.h>
+
 #ifndef RECORD_VOICE_ASYNCHRONOUSLY
     #define RECORD_VOICE_ASYNCHRONOUSLY 1
 #endif
@@ -22,7 +24,7 @@ static void *recordVoice(ai::query::request::VoiceRecorder *const recorder) {
 
     std::cout << "Voice source is located at " << filePath << std::endl;
 
-    std::ifstream fstream = std::ifstream(filePath.c_str(), std::ifstream::binary);
+    std::ifstream fstream(filePath.c_str(), std::ifstream::binary);
 
     fstream.seekg(0, fstream.end);
     std::streamsize length = fstream.tellg();

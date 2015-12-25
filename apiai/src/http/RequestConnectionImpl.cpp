@@ -2,9 +2,10 @@
 
 #include <apiai/exceptions/Exception.h>
 
+using namespace std;
 using namespace ai;
 
-RequestConnection::RequestConnectionImpl::RequestConnectionImpl(const std::string &URL)
+RequestConnection::RequestConnectionImpl::RequestConnectionImpl(const string &URL)
 {
     curl = curl_easy_init();
     if (!curl) {
@@ -19,29 +20,29 @@ size_t RequestConnection::RequestConnectionImpl::read_callback(char *ptr, size_t
     return reader->read(ptr, size * nmemb);
 }
 
-uint RequestConnection::RequestConnectionImpl::write_callback(char *in, uint size, uint nmemb, std::string *response)
+uint RequestConnection::RequestConnectionImpl::write_callback(char *in, uint size, uint nmemb, string *response)
 {
   response->append(in, size * nmemb);
   return size * nmemb;
 }
 
-const std::string &RequestConnection::RequestConnectionImpl::getURL() const
+const string &RequestConnection::RequestConnectionImpl::getURL() const
 {
     return URL;
 }
 
-void RequestConnection::RequestConnectionImpl::setURL(const std::string &value)
+void RequestConnection::RequestConnectionImpl::setURL(const string &value)
 {
     URL = value;
     curl_easy_setopt(curl, CURLOPT_URL, URL.c_str());
 }
 
-std::string RequestConnection::RequestConnectionImpl::getBody()
+string RequestConnection::RequestConnectionImpl::getBody()
 {
     return this->bodyStream.str();
 }
 
-void RequestConnection::RequestConnectionImpl::setBody(const std::string &value)
+void RequestConnection::RequestConnectionImpl::setBody(const string &value)
 {
     this->bodyStream.str(value);
     this->bodyStream.sealed(true);
@@ -51,23 +52,23 @@ io::StreamWriter RequestConnection::RequestConnectionImpl::getBodyStreamWriter()
     return this->bodyStream;
 }
 
-const std::map<std::string, std::string> &RequestConnection::RequestConnectionImpl::getHeaders() const
+const map<string, string> &RequestConnection::RequestConnectionImpl::getHeaders() const
 {
     return headers;
 }
 
-void RequestConnection::RequestConnectionImpl::setHeaders(const std::map<std::string, std::string> &value)
+void RequestConnection::RequestConnectionImpl::setHeaders(const map<string, string> &value)
 {
     headers = value;
 }
 
-RequestConnection::RequestConnectionImpl& RequestConnection::RequestConnectionImpl::addHeader(const std::string &name, const std::string &value) {
+RequestConnection::RequestConnectionImpl& RequestConnection::RequestConnectionImpl::addHeader(const string &name, const string &value) {
     headers[name] = value;
 
     return *this;
 }
 
-std::string RequestConnection::RequestConnectionImpl::performConnection()
+string RequestConnection::RequestConnectionImpl::performConnection()
 {
     {
         if (this->getBody().length() > 0) {
@@ -83,7 +84,7 @@ std::string RequestConnection::RequestConnectionImpl::performConnection()
     struct curl_slist *curl_headers = NULL;
 
     for (auto &key_value :headers) {
-        auto header = std::ostringstream();
+        ostringstream header;
         header << key_value.first << ": " << key_value.second;
 
         curl_headers = curl_slist_append(curl_headers, header.str().c_str());
@@ -91,7 +92,7 @@ std::string RequestConnection::RequestConnectionImpl::performConnection()
 
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, curl_headers);
 
-    auto response = std::string();
+    auto response = string();
 
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);

@@ -12,6 +12,8 @@
 
 #include "../http/RequestConnectionImpl.h"
 
+#include <string.h>
+
 using namespace std;
 using namespace ai::query::request;
 using namespace ai::query::response;

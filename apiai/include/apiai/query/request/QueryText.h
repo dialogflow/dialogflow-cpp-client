@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include <apiai/exceptions/InvalidArgumentException.h>
+
 namespace ai {
     namespace query {
         namespace request {
@@ -40,7 +42,7 @@ namespace ai {
             private:
                 QueryOne(std::string query): query(query) {
                     if (query.size() == 0) {
-                        throw std::invalid_argument("Query cannot be empty.");
+                        throw InvalidArgumentException("Query cannot be empty.");
                     }
                 }
                 std::string query;
@@ -55,12 +57,12 @@ namespace ai {
             private:
                 QueryMultipleStrings(std::vector<std::string> query): query(query) {
                     if (query.size() == 0) {
-                        throw std::invalid_argument("Query cannot be empty.");
+                        throw InvalidArgumentException("Query cannot be empty.");
                     }
 
                     for (auto& text: query) {
                         if (text.size() == 0) {
-                            throw std::invalid_argument("Query cannot be empty.");
+                            throw InvalidArgumentException("Query cannot be empty.");
                         }
                     }
                 }
@@ -77,12 +79,12 @@ namespace ai {
                 QueryMultipleVariants(std::vector<QueryVariant> query): query(query)
                 {
                     if (query.size() == 0) {
-                        throw std::invalid_argument("Query cannot be empty.");
+                        throw InvalidArgumentException("Query cannot be empty.");
                     }
 
                     for (auto& variant: query) {
                         if (variant.getText().size() == 0) {
-                            throw std::invalid_argument("Query cannot be empty.");
+                            throw InvalidArgumentException("Query cannot be empty.");
                         }
                     }
                 }

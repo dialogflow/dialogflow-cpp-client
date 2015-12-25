@@ -1,4 +1,5 @@
 #include <apiai/query/request/RequestContext.h>
+#include <apiai/exceptions/InvalidArgumentException.h>
 
 using namespace std;
 using namespace ai::query::request;
@@ -25,11 +26,11 @@ void RequestContext::setLifespan(const int& lifespan)
 RequestContext& RequestContext::addParameter(std::string name, std::string value)
 {
     if (name.size() == 0) {
-        throw invalid_argument("Name cannot be empty.");
+        throw InvalidArgumentException("Name cannot be empty.");
     }
 
     if (value.size() == 0) {
-        throw invalid_argument("Value cannot be empty.");
+        throw InvalidArgumentException("Value cannot be empty.");
     }
 
     parameters[name] = value;
@@ -45,7 +46,7 @@ const std::string& RequestContext::getName() const
 void RequestContext::setName(const std::string& name)
 {
     if (name.size() == 0) {
-        throw invalid_argument("Name cannot be empty.");
+        throw InvalidArgumentException("Name cannot be empty.");
     }
     this->name = name;
 }

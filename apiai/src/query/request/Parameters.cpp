@@ -1,4 +1,5 @@
 #include <apiai/query/request/Parameters.h>
+#include <apiai/exceptions/InvalidArgumentException.h>
 
 using namespace std;
 using namespace ai::query::request;
@@ -12,7 +13,7 @@ Parameters::Parameters(std::string sessionId,
     sessionId(sessionId), resetContexts(resetContexts), timeZone(timeZone), contexts(contexts), entities(entities)
 {
     if (sessionId.size() == 0) {
-        throw invalid_argument("SessionId connot be zero length.");
+        throw InvalidArgumentException("SessionId connot be zero length.");
     }
 }
 

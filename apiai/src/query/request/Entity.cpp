@@ -1,14 +1,13 @@
 #include <apiai/query/request/Entity.h>
+#include <apiai/exceptions/InvalidArgumentException.h>
 
 using namespace std;
 using namespace ai::query::request;
 
-//Entry
-
 Entry::Entry(const std::string &value, const std::vector<std::string> &synonyms): value(value), synonyms({})
 {
     if (value.size() == 0) {
-        throw std::invalid_argument("Value cannot be empty.");
+        throw ai::InvalidArgumentException("Value cannot be empty.");
     }
 
     for(auto& synonim: synonyms) {
@@ -19,7 +18,7 @@ Entry::Entry(const std::string &value, const std::vector<std::string> &synonyms)
 Entry& Entry::addSynonym(const std::string &synonym)
 {
     if (value.size() == 0) {
-        throw std::invalid_argument("Synonym cannot be empty.");
+        throw ai::InvalidArgumentException("Synonym cannot be empty.");
     }
 
     this->synonyms.push_back(synonym);
@@ -43,7 +42,7 @@ Entry::~Entry(){}
 Entity::Entity(/*const std::string &id,*/ const std::string &name, const std::vector<Entry> &entries): /*id(id),*/ name(name), entries(entries)
 {
     if(name.size() == 0) {
-        throw invalid_argument("Name cannot ne empty.");
+        throw ai::InvalidArgumentException("Name cannot ne empty.");
     }
 }
 
@@ -52,11 +51,6 @@ Entity& Entity::addEntry(const Entry &entry)
     this->entries.push_back(entry);
     return *this;
 }
-
-//const std::string &Entity::getId() const
-//{
-//    return id;
-//}
 
 const std::string &Entity::getName() const
 {

@@ -238,7 +238,9 @@ VADState VADContextProcessFrames(const VADContextRef context, const short *frame
 
 float VADFrameCalculateEnergy(const float *frames, size_t frames_count) {
     float energy = 0.f;
-    for (size_t i = 0; i < frames_count; i++) {
+    size_t i = 0;
+
+    for (i = 0; i < frames_count; i++) {
         energy += frames[i] * frames[i];
     }
 
@@ -247,7 +249,8 @@ float VADFrameCalculateEnergy(const float *frames, size_t frames_count) {
 
 float *VADFrameNormalize(const short *frames, size_t frames_count) {
     float *const normalized_frames = (float *)malloc(sizeof(float) * frames_count);
-    for (size_t i = 0; i < frames_count; i++) {
+    size_t i = 0;
+    for (i = 0; i < frames_count; i++) {
         normalized_frames[i] = frames[i] / (float)SHRT_MAX;
     }
 
@@ -258,7 +261,9 @@ size_t VADFrameCalculateZeroCrossingRate(const short *frame, size_t frames_count
     size_t zcr = 0;
     short sign = 0;
     short last_sign = 0;
-    for (size_t i = 0; i < frames_count; i++) {
+
+    size_t i = 0;
+    for (i = 0; i < frames_count; i++) {
         sign = (frame[i] > 0) ? 1 : -1;
 
         if ((last_sign != 0) && (sign != last_sign)) {

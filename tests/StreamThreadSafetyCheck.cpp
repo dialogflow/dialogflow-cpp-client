@@ -6,6 +6,8 @@
 #include <string>
 #include <sstream>
 
+#include <unistd.h>
+
 #include <io/Stream.h>
 #include "StreamThreadSafetyCheck.h"
 

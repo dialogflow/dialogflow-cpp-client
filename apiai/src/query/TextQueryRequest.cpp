@@ -19,7 +19,7 @@ TextQueryRequest::TextQueryRequest(
         const Parameters &parameters): QueryRequest(language, credentials, parameters), query(query)
 {
     if (!query.get()) {
-        throw invalid_argument("Query cannot be null");
+        throw InvalidArgumentException("Query cannot be null");
     }
 }
 

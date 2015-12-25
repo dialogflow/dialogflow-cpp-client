@@ -1,5 +1,10 @@
 cmake_minimum_required ( VERSION 3.0 )
 
+#This code using for tests for specific compiler,
+#please does not remove this while library status is developming
+#SET(CMAKE_C_COMPILER /usr/local/Cellar/gcc48/4.8.4/bin/gcc-4.8)
+#SET(CMAKE_CXX_COMPILER /usr/local/Cellar/gcc48/4.8.4/bin/g++-4.8)
+
 project ( apiai )
 enable_testing()
 
@@ -12,7 +17,7 @@ OPTION(APIAI_WITH_PKGCONFIG_SUPPORT "Generate and install .pc files" ON)
 OPTION(BUILD_SHARED_LIBS "Build apiai as a shared library." ON)
 OPTION(BUILD_STATIC_LIBS "Build apiai as a static library." OFF)
 
-#SET(CMAKE_BUILD_TYPE Debug)
+SET(CMAKE_BUILD_TYPE Debug)
 
 IF(NOT WIN32)
     IF(NOT CMAKE_BUILD_TYPE)
@@ -33,7 +38,25 @@ else()
         message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-find_package(Curl REQUIRED)
+set(USE_BOOST OFF)
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "5.0.0")
+#    set(Boost_USE_STATIC_LIBS        ON) # only find static libs
+#    set(Boost_USE_MULTITHREADED      ON)
+#    set(Boost_USE_STATIC_RUNTIME    OFF)
+
+    find_package(Boost 1.55 REQUIRED system)
+    if (Boost_FOUND)
+        include_directories(${Boost_INCLUDE_DIRS})
+        set(USE_BOOST ON)
+    else()
+        message(FATAL_ERROR "Current vesion GCC required use boost.")
+    endif()
+  endif()
+endif()
+
+find_package(CURL REQUIRED)
 
 if (CURL_FOUND)
     include_directories(${CURL_INCLUDE_DIR})
@@ -63,8 +86,6 @@ IF(APIAI_WITH_PKGCONFIG_SUPPORT)
         INSTALL(FILES "${CMAKE_BINARY_DIR}/pkg-config/apiai.pc"
                 DESTINATION "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/pkgconfig")
 ENDIF()
-
-#INCLUDE_DIRECTORIES( ${apiai_SOURCE_DIR}/apiai )
 
 include_directories(thirdparty/cJSON)
 
