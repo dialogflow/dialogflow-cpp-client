@@ -3,18 +3,19 @@
 
 #include <string>
 #include <exception>
+#include <stdexcept>
 
 namespace ai {
-    class InvalidArgumentException: public std::exception
+    class InvalidArgumentException: public std::runtime_error
     {
     private:
-        std::string reason;
+//        std::string reason;
     public:
-        InvalidArgumentException(const std::string &reason) _GLIBCXX_USE_NOEXCEPT;
+        InvalidArgumentException(const std::string &reason);
 
-        virtual const char* what() const _GLIBCXX_USE_NOEXCEPT override;
+//        virtual const char* what() const _GLIBCXX_USE_NOEXCEPT;
 
-        virtual ~InvalidArgumentException() _GLIBCXX_USE_NOEXCEPT;
+//        virtual ~InvalidArgumentException() _GLIBCXX_USE_NOEXCEPT;
     };
 }
 
