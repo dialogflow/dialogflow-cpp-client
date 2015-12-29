@@ -10,7 +10,7 @@ namespace ai {
     private:
         std::string reason;
     public:
-        InvalidArgumentException(const std::string &reason);
+        InvalidArgumentException(const std::string &reason) throw();
 
         virtual const char* what() const throw() override;
 

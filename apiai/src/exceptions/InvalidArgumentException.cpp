@@ -2,7 +2,7 @@
 
 using namespace ai;
 
-InvalidArgumentException::InvalidArgumentException(const std::string &reason): reason(reason)
+InvalidArgumentException::InvalidArgumentException(const std::string &reason) throw(): reason(reason)
 {
 
 }
