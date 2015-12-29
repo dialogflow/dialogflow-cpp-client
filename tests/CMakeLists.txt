@@ -1,4 +1,4 @@
-find_package (Boost COMPONENTS unit_test_framework REQUIRED)
+find_package (Boost COMPONENTS unit_test_framework)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../apiai/src)
 

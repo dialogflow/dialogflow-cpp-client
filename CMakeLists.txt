@@ -2,8 +2,8 @@ cmake_minimum_required ( VERSION 3.0 )
 
 #This code using for tests for specific compiler,
 #please does not remove this while library status is developming
-SET(CMAKE_C_COMPILER /usr/local/Cellar/gcc48/4.8.4/bin/gcc-4.8)
-SET(CMAKE_CXX_COMPILER /usr/local/Cellar/gcc48/4.8.4/bin/g++-4.8)
+#SET(CMAKE_C_COMPILER /usr/local/Cellar/gcc48/4.8.4/bin/gcc-4.8)
+#SET(CMAKE_CXX_COMPILER /usr/local/Cellar/gcc48/4.8.4/bin/g++-4.8)
 
 project ( apiai )
 enable_testing()
