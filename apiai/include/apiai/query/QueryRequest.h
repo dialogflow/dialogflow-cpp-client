@@ -27,7 +27,7 @@ namespace ai {
                 Parameters parameters;
                 std::string language;
                 std::shared_ptr<QueryText> query;
-            protected:
+            public:
                 virtual response::Response serialize(const std::string &response) override;
             };
         }

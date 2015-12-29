@@ -10,7 +10,7 @@
 
 namespace ai{
     template <typename T>
-    class RequestSerialize: protected RequestConnection {
+    class RequestSerialize: public RequestConnection {
     public:
         virtual T perform() {
             try {
@@ -24,10 +24,10 @@ namespace ai{
                 throw ai::InvalidArgumentException("My Exception");
             }
         }
-    protected:
+    public:
         RequestSerialize(std::string URL): RequestConnection(URL) {}
 //        virtual T serialize(const std::string& response) = 0;
-        virtual T serialize(const std::string& response) {}
+        virtual T serialize(const std::string& response) = 0;
     };
 }
 
