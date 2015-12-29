@@ -15,7 +15,8 @@ namespace ai{
         virtual T perform() {
             try {
                 auto resp = this->performConnection();
-                return this->serialize(resp);
+//                return this->serialize(resp);
+                return this->serialize("resp");
             } catch (ai::InvalidArgumentException &e) {
                 std::cout << e.what() << std::endl;
                 throw;
