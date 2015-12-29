@@ -71,15 +71,14 @@ RequestConnection::RequestConnectionImpl& RequestConnection::RequestConnectionIm
 
 string RequestConnection::RequestConnectionImpl::performConnection()
 {
-    {
-        if (this->getBody().length() > 0) {
-            io::StreamReader bodyStreamReader(this->bodyStream);
+    //FIXME: bodyStreamReader should be user only when POST request
+    io::StreamReader bodyStreamReader(this->bodyStream);
 
-            curl_easy_setopt(curl, CURLOPT_POST, 1L);
+    if (this->getBody().length() > 0) {
+        curl_easy_setopt(curl, CURLOPT_POST, 1L);
 
-            curl_easy_setopt(curl, CURLOPT_READFUNCTION, read_callback);
-            curl_easy_setopt(curl, CURLOPT_READDATA, &bodyStreamReader);
-        }
+        curl_easy_setopt(curl, CURLOPT_READFUNCTION, read_callback);
+        curl_easy_setopt(curl, CURLOPT_READDATA, &bodyStreamReader);
     }
 
     struct curl_slist *curl_headers = NULL;
