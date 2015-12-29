@@ -10,11 +10,11 @@ namespace ai {
     private:
         std::string reason;
     public:
-        InvalidArgumentException(const std::string &reason) throw();
+        InvalidArgumentException(const std::string &reason) _GLIBCXX_USE_NOEXCEPT;
 
-        virtual const char* what() const throw() override;
+        virtual const char* what() const _GLIBCXX_USE_NOEXCEPT override;
 
-        virtual ~InvalidArgumentException() throw();
+        virtual ~InvalidArgumentException() _GLIBCXX_USE_NOEXCEPT;
     };
 }
 

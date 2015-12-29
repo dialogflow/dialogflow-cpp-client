@@ -12,11 +12,11 @@ private:
     std::string reason;
 public:
 
-    Exception(const char *reason) throw();
+    Exception(const char *reason) _GLIBCXX_USE_NOEXCEPT;
 
-    virtual const char* what() const throw() override;
+    virtual const char* what() const _GLIBCXX_USE_NOEXCEPT override;
 
-    virtual ~Exception() throw();
+    virtual ~Exception() _GLIBCXX_USE_NOEXCEPT;
 };
 
 }

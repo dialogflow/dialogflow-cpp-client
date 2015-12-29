@@ -2,17 +2,17 @@
 
 using namespace ai;
 
-InvalidArgumentException::InvalidArgumentException(const std::string &reason) throw(): reason(reason)
+InvalidArgumentException::InvalidArgumentException(const std::string &reason) _GLIBCXX_USE_NOEXCEPT: reason(reason)
 {
 
 }
 
-const char* InvalidArgumentException::what() const throw()
+const char* InvalidArgumentException::what() const _GLIBCXX_USE_NOEXCEPT
 {
     return reason.c_str();
 }
 
-InvalidArgumentException::~InvalidArgumentException() throw()
+InvalidArgumentException::~InvalidArgumentException() _GLIBCXX_USE_NOEXCEPT
 {
 
 }
