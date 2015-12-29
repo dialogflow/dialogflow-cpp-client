@@ -15,7 +15,7 @@ namespace ai{
             try {
                 return this->serialize(this->performConnection());
             } catch(...) {
-                throw;
+                throw ai::InvalidArgumentException("My Exception");
             }
         }
     protected:

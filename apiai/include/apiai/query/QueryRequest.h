@@ -21,8 +21,6 @@ namespace ai {
                 virtual ~QueryRequest();
 
             private:
-                response::Response serialize2(const std::string &response);
-
                 // TODO: It's also necessary to disallow assignment. It's better use DISALLOW_COPY_AND_ASSIGN by Google.
                 QueryRequest(const QueryRequest&);
 
@@ -30,10 +28,7 @@ namespace ai {
                 std::string language;
                 std::shared_ptr<QueryText> query;
             protected:
-                virtual response::Response serialize(const std::string &response) override {
-                    return this->serialize2(response);
-                }
-
+                virtual response::Response serialize(const std::string &response) override;
             };
         }
     }
