@@ -80,13 +80,8 @@ int main(int argc, char *argv[]) {
 
     request->setVoiceSource([](ai::query::request::VoiceRecorder *const recorder) {
     #ifdef RECORD_VOICE_ASYNCHRONOUSLY
-        pthread_t thread;
-        if (pthread_create(&thread, NULL, &detached_main, reinterpret_cast<void *>(recorder)) == 0) {
-            pthread_detach(thread);
-        }
-        else {
-            abort();
-        }
+        std::thread thread(detached_main, reinterpret_cast<void *>(recorder));
+        thread.detach();
     #else
           detached_main(reinterpret_cast<void *>(recorder));
     #endif
