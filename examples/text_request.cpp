@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
     try {
         auto response = request->perform();
         std::cout << response << std::endl;
-    } catch(ai::InvalidArgumentException &e) {
+    } catch(std::exception &e) {
         std::cout << e.what() << std::endl;
     }
 
