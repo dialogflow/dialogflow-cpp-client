@@ -6,6 +6,7 @@
 #include <apiai/exceptions/InvalidArgumentException.h>
 #include <apiai/exceptions/JSONException.h>
 
+#include <iostream>
 
 namespace ai{
     template <typename T>
@@ -13,7 +14,11 @@ namespace ai{
     public:
         virtual T perform() {
             try {
-                return this->serialize(this->performConnection());
+                auto resp = this->performConnection();
+                return this->serialize(resp);
+            } catch (ai::InvalidArgumentException &e) {
+                std::cout << e.what() << std::endl;
+                throw;
             } catch(...) {
                 throw ai::InvalidArgumentException("My Exception");
             }

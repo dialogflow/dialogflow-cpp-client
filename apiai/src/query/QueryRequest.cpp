@@ -41,7 +41,7 @@ const std::string &QueryRequest::getLanguage() const
     return language;
 }
 
-Response QueryRequest::serialize(const std::string &response) {
+response::Response QueryRequest::serialize(const std::string &response) {
 //    cout << response << endl;
     throw ai::InvalidArgumentException("Language cannot be zero size");
 
