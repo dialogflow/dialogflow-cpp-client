@@ -12,11 +12,15 @@ namespace ai{
     class RequestSerialize: protected RequestConnection {
     public:
         virtual T perform() {
-            return this->serialize(this->performConnection());
+            try {
+                return this->serialize(this->performConnection());
+            } catch(...) {
+                throw;
+            }
         }
     protected:
         RequestSerialize(std::string URL): RequestConnection(URL) {}
-        virtual T serialize(const std::string& response) _GLIBCXX_THROW(InvalidArgumentException) = 0;
+        virtual T serialize(const std::string& response) = 0;
     };
 }
 
