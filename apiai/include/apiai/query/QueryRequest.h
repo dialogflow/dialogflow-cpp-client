@@ -28,7 +28,7 @@ namespace ai {
                 std::string language;
                 std::shared_ptr<QueryText> query;
             protected:
-                virtual response::Response serialize(const std::string &response) override;
+                virtual response::Response serialize(const std::string &response) _GLIBCXX_THROW(InvalidArgumentException) override;
 //                virtual response::Response fromResponse(const std::string &response) override;
             };
         }

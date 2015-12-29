@@ -16,7 +16,7 @@ namespace ai{
         }
     protected:
         RequestSerialize(std::string URL): RequestConnection(URL) {}
-        virtual T serialize(const std::string& response) _GLIBCXX_THROW((InvalidArgumentException, JSONException)) = 0;
+        virtual T serialize(const std::string& response) _GLIBCXX_THROW(InvalidArgumentException) = 0;
     };
 }
 
