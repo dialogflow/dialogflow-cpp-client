@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <string>
 #include <sstream>
+#include <thread>
 
 #include <unistd.h>
 
@@ -200,14 +201,10 @@ namespace ai {
         }
 
         void StreamThreadSafetyCheck::createDetachedThreads(void *(*startRoutine)(void *), unsigned int numberOfThreads) {
-            pthread_t thread;
+            //FIXME: remove using index, becouse it can be deleted before thread will be started
             for (unsigned int index = 0; index < numberOfThreads; ++index) {
-                if (pthread_create(&thread, NULL, startRoutine, (void *)&index) == 0) {
-                    pthread_detach(thread);
-                }
-                else {
-                    abort();
-                }
+                std::thread thread(startRoutine, (void *)&index);
+                thread.detach();
             }
         }
 
