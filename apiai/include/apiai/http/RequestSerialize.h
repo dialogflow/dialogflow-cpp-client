@@ -26,7 +26,8 @@ namespace ai{
         }
     protected:
         RequestSerialize(std::string URL): RequestConnection(URL) {}
-        virtual T serialize(const std::string& response) = 0;
+//        virtual T serialize(const std::string& response) = 0;
+        virtual T serialize(const std::string& response) {}
     };
 }
 
