@@ -71,7 +71,7 @@ RequestConnection::RequestConnectionImpl& RequestConnection::RequestConnectionIm
 
 string RequestConnection::RequestConnectionImpl::performConnection()
 {
-    //FIXME: bodyStreamReader should be user only when POST request
+    //FIXME: bodyStreamReader should be used only when POST request type
     io::StreamReader bodyStreamReader(this->bodyStream);
 
     if (this->getBody().length() > 0) {
