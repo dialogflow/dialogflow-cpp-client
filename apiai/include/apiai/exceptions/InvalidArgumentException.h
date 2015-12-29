@@ -6,16 +6,16 @@
 #include <stdexcept>
 
 namespace ai {
-    class InvalidArgumentException: public std::runtime_error
+    class InvalidArgumentException: public std::exception
     {
     private:
-//        std::string reason;
+        std::string reason;
     public:
         InvalidArgumentException(const std::string &reason);
 
-//        virtual const char* what() const _GLIBCXX_USE_NOEXCEPT;
+        const char *what () const _GLIBCXX_USE_NOEXCEPT;
 
-//        virtual ~InvalidArgumentException() _GLIBCXX_USE_NOEXCEPT;
+        ~InvalidArgumentException() _GLIBCXX_USE_NOEXCEPT;
     };
 }
 
