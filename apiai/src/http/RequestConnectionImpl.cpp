@@ -1,6 +1,7 @@
 #include "RequestConnectionImpl.h"
 
 #include <apiai/exceptions/Exception.h>
+#include <apiai/exceptions/InvalidArgumentException.h>
 
 using namespace std;
 using namespace ai;
@@ -103,7 +104,7 @@ string RequestConnection::RequestConnectionImpl::performConnection()
     curl_slist_free_all(curl_headers);
 
     if (perform_result != CURLE_OK) {
-        throw Exception("Failure perform request");
+        throw ai::InvalidArgumentException("Failure perform request");
     }
 
     return response;

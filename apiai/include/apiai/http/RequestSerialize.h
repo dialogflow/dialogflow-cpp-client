@@ -24,7 +24,7 @@ namespace ai{
                 throw ai::InvalidArgumentException("My Exception");
             }
         }
-    public:
+    protected:
         RequestSerialize(std::string URL): RequestConnection(URL) {}
 //        virtual T serialize(const std::string& response) = 0;
         virtual T serialize(const std::string& response) = 0;

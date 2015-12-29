@@ -44,6 +44,7 @@ const std::string &QueryRequest::getLanguage() const
 response::Response QueryRequest::serialize(const std::string &response) {
 //    cout << response << endl;
     throw ai::InvalidArgumentException("Language cannot be zero size");
+//    throw std::invalid_argument("Language cannot be zero size");
 
     cJSON *root = cJSON_Parse(response.c_str());
 
