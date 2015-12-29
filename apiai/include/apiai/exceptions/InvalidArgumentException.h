@@ -11,11 +11,13 @@ namespace ai {
     private:
         std::string reason;
     public:
-        InvalidArgumentException(const std::string &reason);
+        InvalidArgumentException(const std::string &reason): reason(reason) {}
 
-        const char *what () const _GLIBCXX_USE_NOEXCEPT;
+        const char *what () const _GLIBCXX_USE_NOEXCEPT {
+            return reason.c_str();
+        }
 
-        ~InvalidArgumentException() _GLIBCXX_USE_NOEXCEPT;
+        ~InvalidArgumentException() _GLIBCXX_USE_NOEXCEPT {}
     };
 }
 
