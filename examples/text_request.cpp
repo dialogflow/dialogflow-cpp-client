@@ -54,9 +54,12 @@ int main(int argc, char *argv[]) {
 
     auto request = std::shared_ptr<TextQueryRequest>(new TextQueryRequest(QueryText::One("hi nori"), "en", credentials, params));
 
-    auto response = request->perform();
-
-    std::cout << response << std::endl;
+    try {
+        auto response = request->perform();
+        std::cout << response << std::endl;
+    } catch(std::exception &e) {
+        std::cout << e.what() << std::endl;
+    }
 
     ai::AI::global_clean();
 
