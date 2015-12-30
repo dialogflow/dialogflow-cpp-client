@@ -128,7 +128,7 @@ VADState VADContextAnalyseFrames(const VADContextRef context, const short *frame
     }
     else {
         VADContextPushFrames(context, frames, frames_count);
-        while ((context->frames_count > CHUNK_SIZE) && (context->state != VADStateEndOfSpeech)) {
+        while ((context->frames_count >= CHUNK_SIZE) && (context->state != VADStateEndOfSpeech)) {
             short *const chunk = VADContextPopFrames(context, CHUNK_SIZE);
             if (chunk == NULL) {
                 context->state = VADStateError;
