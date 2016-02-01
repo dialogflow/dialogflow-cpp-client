@@ -109,13 +109,16 @@ response::Response QueryRequest::serialize(const std::string &response) {
                         lifespan = jsonInt(context_json, "lifespan");
                     } catch(...) {}
 
-                    std::map<std::string, ai::query::response::Element> params;
+                    std::map<std::string, shared_ptr<ai::query::response::Element>> params;
 
                     try {
                         auto json_params = jsonObject(context_json, "parameters");
 
                         params = ai::query::response::ContextParametersSerializer::serialize(json_params);
-                    } catch(...){}
+                    } catch(std::exception &e){
+                        cout << e.what() << endl;
+                        cout << "Catch!" << endl;
+                    }
 
                     contexts.push_back(ai::query::response::Context(name, lifespan, params));
                 }

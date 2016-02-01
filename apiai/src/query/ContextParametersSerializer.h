@@ -15,10 +15,10 @@ namespace ai{
             {
             public:
                 // TODO: Is it OK that the outgoing map is marked as 'const'.
-                static const std::map<std::string, Element> serialize(cJSON *source);
+                static const std::map<std::string, std::shared_ptr<Element>> serialize(cJSON *source);
             private:
                 // TODO: It would be nice to return a smart pointer to a new element rather than an element itself. Too many copies happen.
-                static Element serialize_element(cJSON *json_element);
+                static std::shared_ptr<Element> serialize_element(cJSON *json_element);
                 ContextParametersSerializer();
             };
         }

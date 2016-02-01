@@ -38,28 +38,40 @@ int main(int argc, char *argv[]) {
 
     ai::AI::global_init();
 
-    auto credentials = ai::Credentials("ff98c090685f484caaffada53cdce7b3", "4c91a8e5-275f-4bf0-8f94-befa78ef92cd");
+    auto credentials = ai::Credentials("09604c7f91ce4cd8a4ede55eb5340b9d", "4c91a8e5-275f-4bf0-8f94-befa78ef92cd");
 
-    auto params = Parameters("<session id unique for every user>")
-            .addEntity(
-                Entity("dwarfs")
-                    .addEntry(
-                        Entry("Ori").addSynonym("ori").addSynonym("Nori")
-                    ).addEntry(
-                        Entry("bifur").addSynonym("Bofur").addSynonym("Bombur")
-                    )
-            ).addContext(
-                RequestContext("context")
-            );
+    auto params = Parameters("<session id unique for every user>").setResetContexts(true);
 
-    auto request = std::shared_ptr<TextQueryRequest>(new TextQueryRequest(QueryText::One("hi nori"), "en", credentials, params));
+    auto request = std::shared_ptr<TextQueryRequest>(new TextQueryRequest(QueryText::One("test context parameters"), "en", credentials, params));
 
     try {
-        auto response = request->perform();
-        std::cout << response << std::endl;
-    } catch(std::exception &e) {
+        std::cout << request->perform() << std::endl;
+    } catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }
+
+//    auto credentials = ai::Credentials("ff98c090685f484caaffada53cdce7b3", "4c91a8e5-275f-4bf0-8f94-befa78ef92cd");
+
+//    auto params = Parameters("<session id unique for every user>")
+//            .addEntity(
+//                Entity("dwarfs")
+//                    .addEntry(
+//                        Entry("Ori").addSynonym("ori").addSynonym("Nori")
+//                    ).addEntry(
+//                        Entry("bifur").addSynonym("Bofur").addSynonym("Bombur")
+//                    )
+//            ).addContext(
+//                RequestContext("context")
+//            );
+
+//    auto request = std::shared_ptr<TextQueryRequest>(new TextQueryRequest(QueryText::One("hi nori"), "en", credentials, params));
+
+//    try {
+//        auto response = request->perform();
+//        std::cout << response << std::endl;
+//    } catch(std::exception &e) {
+//        std::cout << e.what() << std::endl;
+//    }
 
     ai::AI::global_clean();
 

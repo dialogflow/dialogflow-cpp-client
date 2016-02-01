@@ -12,17 +12,17 @@ bool Element::isArray()     const   { return false; }
 bool Element::isBool()      const   { return false; }
 bool Element::isString()    const   { return false; }
 
-map<string, Element>    Element::asObject()     const   { throw JSONException("Cannot cast value to Object type."); }
+map<string, shared_ptr<Element>>    Element::asObject()     const   { throw JSONException("Cannot cast value to Object type."); }
 double                  Element::asDouble()     const   { throw JSONException("Cannot cast value to Double type."); }
 int                     Element::asInteger()    const   { throw JSONException("Cannot cast value to Integer type."); }
-vector<Element>         Element::asArray()      const   { throw JSONException("Cannot cast value to Array type."); }
+vector<shared_ptr<Element>>         Element::asArray()      const   { throw JSONException("Cannot cast value to Array type."); }
 bool                    Element::asBool()       const   { throw JSONException("Cannot cast value to Bool type."); }
 string                  Element::asString()     const   { throw JSONException("Cannot cast value to String type."); }
 
 Context::Context(
         string                  name,
         int                     lifespan,
-        map<string, Element>    parameters
+        map<string, std::shared_ptr<Element>>    parameters
         ): name(name), lifespan(lifespan), parameters(parameters)
 {
 
@@ -38,7 +38,7 @@ string Context::getName() const
     return name;
 }
 
-map<string, Element> Context::getParameters() const
+map<string, shared_ptr<Element>> Context::getParameters() const
 {
     return parameters;
 }
@@ -51,12 +51,12 @@ namespace ai {
                 os << "    " << "name: " << context.name << endl;
                 os << "    " << "lifespan: " << context.lifespan << endl;
 
-                os << "    " << "parameters: {";
+                os << "    " << "parameters: {\n";
 
                 ai::utils::indent_stream indent_stream(os);
                 for (auto key_value: context.parameters) {
                     auto key = key_value.first;
-                    auto element = key_value.second;
+                    auto& element = *key_value.second;
 
                     indent_stream << "\"" << key << "\": ";
                     std::ostream& temp = indent_stream;

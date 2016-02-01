@@ -1,11 +1,10 @@
 #ifndef CONTEXT_H
 #define CONTEXT_H
 
-//#include "../../JSON/JSONException.h"
-
 #include <string>
 #include <map>
 #include <vector>
+#include <memory>
 
 namespace ai{
     namespace query {
@@ -18,10 +17,10 @@ namespace ai{
                 virtual bool isBool() const;
                 virtual bool isString() const;
 
-                virtual std::map<std::string, Element> asObject() const;
+                virtual std::map<std::string, std::shared_ptr<Element>> asObject() const;
                 virtual double asDouble() const;
                 virtual int asInteger() const;
-                virtual std::vector<Element> asArray() const;
+                virtual std::vector<std::shared_ptr<Element>> asArray() const;
                 virtual bool asBool() const;
                 virtual std::string asString() const;
 
@@ -43,20 +42,20 @@ namespace ai{
                 T value;
             };
 
-            class ObjectElement: public ValueContainer<std::map<std::string, Element>>, public Element{
+            class ObjectElement: public ValueContainer<std::map<std::string, std::shared_ptr<Element>>>, public Element{
             public:
-                ObjectElement(std::map<std::string, Element> value): ValueContainer(value) {}
+                ObjectElement(std::map<std::string, std::shared_ptr<Element>> value): ValueContainer(value) {}
 
                 virtual bool isObject() const override { return true; }
-                virtual std::map<std::string, Element> asObject() const override { return this->getValue(); }
+                virtual std::map<std::string, std::shared_ptr<Element>> asObject() const override { return this->getValue(); }
             };
 
-            class ArrayElement: public ValueContainer<std::vector<Element>>, public Element {
+            class ArrayElement: public ValueContainer<std::vector<std::shared_ptr<Element>>>, public Element {
             public:
-                ArrayElement(std::vector<Element> value): ValueContainer(value) {}
+                ArrayElement(std::vector<std::shared_ptr<Element>> value): ValueContainer(value) {}
 
                 virtual bool isArray() const override { return true; }
-                virtual std::vector<Element> asArray() const override { return this->getValue(); }
+                virtual std::vector<std::shared_ptr<Element>> asArray() const override { return this->getValue(); }
             };
 
             class StringElement: public ValueContainer<std::string>, public Element {
@@ -87,15 +86,15 @@ namespace ai{
             class Context
             {
             public:
-                Context(std::string name, int lifespan, std::map<std::string, Element> parameters);
+                Context(std::string name, int lifespan, std::map<std::string, std::shared_ptr<Element>> parameters);
 
                 int getLifespan() const;
                 std::string getName() const;
-                std::map<std::string, Element> getParameters() const;
+                std::map<std::string, std::shared_ptr<Element>> getParameters() const;
             private:
                 const std::string name;
                 const int lifespan;
-                const std::map<std::string, Element> parameters;
+                const std::map<std::string, std::shared_ptr<Element>> parameters;
 
                 friend std::ostream& operator << (std::ostream& os, const Context& context);
             };
