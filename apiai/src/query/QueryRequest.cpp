@@ -17,13 +17,14 @@
 #include "../http/RequestConnectionImpl.h"
 
 #include <apiai/exceptions/InvalidArgumentException.h>
+#include <apiai/query/response/Fulfillment.h>
 
 using namespace std;
 using namespace ai::query;
 using namespace ai::query::request;
 using namespace ai::query::response;
 
-QueryRequest::QueryRequest(const std::string &language,
+QueryRequest::QueryRequest(const string &language,
                            const Credentials &credentials,
                            const Parameters &parameters):
     Request(credentials), language(language), parameters(parameters)
@@ -36,65 +37,61 @@ QueryRequest::QueryRequest(const std::string &language,
             .addHeader("Transfer-Encoding", "chunked");
 }
 
-const std::string &QueryRequest::getLanguage() const
+const string &QueryRequest::getLanguage() const
 {
     return language;
 }
 
-response::Response QueryRequest::serialize(const std::string &response) {
-//    cout << response << endl;
-//    throw ai::InvalidArgumentException("Language cannot be zero size");
-//    throw std::invalid_argument("Language cannot be zero size");
-
+response::Response QueryRequest::serialize(const string &response) {
     cJSON *root = cJSON_Parse(response.c_str());
 
     if (root) {
         try {
-            std::string identifier = jsonString(root, "id");
-            std::string timestamp = jsonString(root, "timestamp");
+            string identifier = jsonString(root, "id");
+            string timestamp = jsonString(root, "timestamp");
 
             auto result_json = jsonObject(root, "result");
 
-            std::string source = jsonString(result_json, "source");
-            std::string resolvedQuery = jsonString(result_json, "resolvedQuery");
+            string source = jsonString(result_json, "source");
+            string resolvedQuery = jsonString(result_json, "resolvedQuery");
 
-            auto action_pointer = std::shared_ptr<std::string>(nullptr);
+            auto action_pointer = shared_ptr<string>(nullptr);
 
             try {
-                std::string action = jsonString(result_json, "action");
-                action_pointer = std::shared_ptr<std::string>(new std::string(action));
+                string action = jsonString(result_json, "action");
+                action_pointer = shared_ptr<string>(new string(action));
             } catch (...) {
                 // if action not exist then ignore it
             }
 
-            auto fulfillment_pointer = std::shared_ptr<Fulfillment>(nullptr);
+            auto fulfillment_pointer = shared_ptr<Fulfillment>(nullptr);
 
             try {
                 auto fulfillment_json = jsonObject(result_json, "fulfillment");
-                std::string speech = jsonString(fulfillment_json, "speech");
-                fulfillment_pointer = std::shared_ptr<Fulfillment>(new Fulfillment(speech));
+                string speech = jsonString(fulfillment_json, "speech");
+                fulfillment_pointer = shared_ptr<Fulfillment>(new Fulfillment(speech));
             } catch (...) {
                 // if fulfillment not exist then ignore it
             }
 
-            std::shared_ptr<Metadata> metadata_pointer(new Metadata());
+            shared_ptr<Metadata> metadata_pointer(new Metadata());
 
             try {
                 auto metadata_json = jsonObject(result_json, "metadata");
-                std::string intentId = jsonString(metadata_json, "intentId");
-                std::string intentName = jsonString(metadata_json, "intentName");
+                string intentId = jsonString(metadata_json, "intentId");
+                string intentName = jsonString(metadata_json, "intentName");
 
                 Metadata metadata = Metadata(
-                            std::shared_ptr<std::string>(new std::string(intentId)),
-                            std::shared_ptr<std::string>(new std::string(intentName))
+                            shared_ptr<string>(new string(intentId)),
+                            shared_ptr<string>(new string(intentName))
                             );
 
-                metadata_pointer = std::shared_ptr<Metadata>(new Metadata(metadata));
+                metadata_pointer = shared_ptr<Metadata>(new Metadata(metadata));
             } catch (...) {
                 // if one field of metadata not exist then ignore this fields
             }
 
-            std::vector <ai::query::response::Context> contexts;
+            vector <Context> contexts;
 
             try {
                 auto contexts_array_json = jsonArray(result_json, "contexts");
@@ -109,24 +106,31 @@ response::Response QueryRequest::serialize(const std::string &response) {
                         lifespan = jsonInt(context_json, "lifespan");
                     } catch(...) {}
 
-                    std::map<std::string, shared_ptr<ai::query::response::Element>> params;
+                    map<string, shared_ptr<Element>> params;
 
                     try {
                         auto json_params = jsonObject(context_json, "parameters");
 
-                        params = ai::query::response::ContextParametersSerializer::serialize(json_params);
-                    } catch(std::exception &e){
-                        cout << e.what() << endl;
-                        cout << "Catch!" << endl;
-                    }
+                        params = ContextParametersSerializer::serialize(json_params);
+                    } catch(...){}
 
-                    contexts.push_back(ai::query::response::Context(name, lifespan, params));
+                    contexts.push_back(Context(name, lifespan, params));
                 }
             } catch (...) {
                 throw;
             }
 
-            auto result = Result(source, resolvedQuery, action_pointer, fulfillment_pointer, *metadata_pointer.get(), contexts);
+            map<string, shared_ptr<Element>> result_parameters;
+
+            try {
+                auto result_parameters_json = jsonObject(result_json, "parameters");
+
+                if (result_parameters_json) {
+                    result_parameters = ContextParametersSerializer::serialize(result_parameters_json);
+                }
+            } catch(...) {}
+
+            auto result = Result(source, resolvedQuery, action_pointer, fulfillment_pointer, *metadata_pointer.get(), result_parameters, contexts);
 
             return Response(identifier, timestamp, result);
         } catch(...) {

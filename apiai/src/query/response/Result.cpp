@@ -1,4 +1,5 @@
 #include <apiai/query/response/Result.h>
+#include <apiai/query/response/Fulfillment.h>
 
 #include "indent_stream.h"
 
@@ -9,13 +10,14 @@
 using namespace std;
 using namespace ai::query::response;
 
-Result::Result(const std::string source,
-               const std::string resolvedQuery,
-               const std::shared_ptr<std::string> action,
-               const std::shared_ptr<Fulfillment> fulfillment,
+Result::Result(const string source,
+               const string resolvedQuery,
+               const shared_ptr<string> action,
+               const shared_ptr<Fulfillment> fulfillment,
                const Metadata metadata,
-               const std::vector<ai::query::response::Context> contexts):
-    source(source), resolvedQuery(resolvedQuery), action(action), fulfillment(fulfillment), metadata(metadata), contexts(contexts)
+               map<string, shared_ptr<Element>> parameters,
+               const vector<ai::query::response::Context> contexts):
+    source(source), resolvedQuery(resolvedQuery), action(action), fulfillment(fulfillment), metadata(metadata), parameters(parameters), contexts(contexts)
 {
 
 }
@@ -24,7 +26,7 @@ Result::~Result() {
 
 }
 
-std::vector<Context> Result::getContexts() const
+vector<Context> Result::getContexts() const
 {
     return contexts;
 }
@@ -34,22 +36,27 @@ Metadata Result::getMetadata() const
     return metadata;
 }
 
-std::shared_ptr<Fulfillment> Result::getFulfillment() const
+map<string, shared_ptr<Element>>Result::getParameters() const
+{
+    return parameters;
+}
+
+shared_ptr<Fulfillment> Result::getFulfillment() const
 {
     return fulfillment;
 }
 
-std::string Result::getSource() const
+string Result::getSource() const
 {
     return source;
 }
 
-std::string Result::getResolvedQuery() const
+string Result::getResolvedQuery() const
 {
     return resolvedQuery;
 }
 
-std::shared_ptr<std::string> Result::getAction() const
+shared_ptr<string> Result::getAction() const
 {
     return action;
 }
@@ -57,11 +64,11 @@ std::shared_ptr<std::string> Result::getAction() const
 namespace ai {
     namespace query {
         namespace response {
-            std::ostream& operator << (std::ostream& os, const Result& result) {
+            ostream& operator << (ostream& os, const Result& result) {
 
-                os << "Result:" << std::endl;
-                os << "    " << "source: " << result.source << std::endl;
-                os << "    " << "resolvedQuey: " << result.resolvedQuery << std::endl;
+                os << "Result:" << endl;
+                os << "    " << "source: " << result.source << endl;
+                os << "    " << "resolvedQuey: " << result.resolvedQuery << endl;
                 os << "    " << "action: ";
 
                 if (result.action.get()) {
@@ -70,7 +77,7 @@ namespace ai {
                     os << "NULL";
                 }
 
-                os << std::endl;
+                os << endl;
 
                 os << "fufillment: ";
 
@@ -81,7 +88,7 @@ namespace ai {
                     os << "NULL";
                 }
 
-                os << std::endl;
+                os << endl;
 
                 os << "metadata: ";
                 {
@@ -89,9 +96,29 @@ namespace ai {
                     indent_stream << result.metadata;
                 }
 
+                ////
+
+                os << "parameters: {\n";
+                ai::utils::indent_stream indent_stream(os);
+                for (auto key_value: result.parameters) {
+                    auto key = key_value.first;
+                    auto& element = *key_value.second;
+
+                    indent_stream << "\"" << key << "\": ";
+                    std::ostream& temp = indent_stream;
+
+                    ai::utils::indent_stream indent_stream2(temp);
+
+                    indent_stream2 << element << endl;
+                }
+
+                os << "    " << "}\n";
+
+                ////
+
                 os << "contexts: [" << endl;
 
-                ai::utils::indent_stream indent_stream(os);
+//                ai::utils::indent_stream indent_stream(os);
                 for (auto context: result.contexts) {
                     indent_stream << "{" << endl;
 

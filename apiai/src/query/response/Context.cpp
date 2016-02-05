@@ -6,19 +6,6 @@
 using namespace std;
 using namespace ai::query::response;
 
-bool Element::isObject()    const   { return false; }
-bool Element::isNumber()    const   { return false; }
-bool Element::isArray()     const   { return false; }
-bool Element::isBool()      const   { return false; }
-bool Element::isString()    const   { return false; }
-
-map<string, shared_ptr<Element>>    Element::asObject()     const   { throw JSONException("Cannot cast value to Object type."); }
-double                  Element::asDouble()     const   { throw JSONException("Cannot cast value to Double type."); }
-int                     Element::asInteger()    const   { throw JSONException("Cannot cast value to Integer type."); }
-vector<shared_ptr<Element>>         Element::asArray()      const   { throw JSONException("Cannot cast value to Array type."); }
-bool                    Element::asBool()       const   { throw JSONException("Cannot cast value to Bool type."); }
-string                  Element::asString()     const   { throw JSONException("Cannot cast value to String type."); }
-
 Context::Context(
         string                  name,
         int                     lifespan,
