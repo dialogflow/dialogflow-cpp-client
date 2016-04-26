@@ -17,6 +17,7 @@
 #include "../http/RequestConnectionImpl.h"
 
 #include <apiai/exceptions/InvalidArgumentException.h>
+#include <apiai/exceptions/ResponseErrorException.h>
 #include <apiai/query/response/Fulfillment.h>
 
 using namespace std;
@@ -47,6 +48,16 @@ response::Response QueryRequest::serialize(const string &response) {
 
     if (root) {
         try {
+            auto status = jsonObject(root, "status");
+
+            auto statusCode = jsonInt(status, "code");
+            auto errorType = jsonString(status, "errorType");
+
+            if (statusCode != 200 || errorType != "success") {
+                auto errorDetails = jsonString(status, "errorDetails");
+                throw ResponseErrorException(errorType, errorDetails, statusCode);
+            }
+
             string identifier = jsonString(root, "id");
             string timestamp = jsonString(root, "timestamp");
 

@@ -39,6 +39,7 @@ int main(int argc, char *argv[]) {
     ai::AI::global_init();
 
     auto credentials = ai::Credentials("09604c7f91ce4cd8a4ede55eb5340b9d");
+//    auto credentials = ai::Credentials("Same wrong access key.");
 
     auto params = Parameters("<session id unique for every user>").setResetContexts(true);
 
