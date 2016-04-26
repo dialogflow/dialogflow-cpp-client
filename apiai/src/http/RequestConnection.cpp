@@ -17,8 +17,7 @@ void RequestConnection::authentificate(const Credentials& credentials)
     authorization << "Bearer ";
     authorization << credentials.getClientAccessToken();
 
-    impl->addHeader("Authorization", authorization.str())
-            .addHeader("ocp-apim-subscription-key", credentials.getSubscribtionKey());
+    impl->addHeader("Authorization", authorization.str());
 }
 
 std::string RequestConnection::performConnection()

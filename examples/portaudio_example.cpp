@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    auto credentials = ai::Credentials("ff98c090685f484caaffada53cdce7b3", "4c91a8e5-275f-4bf0-8f94-befa78ef92cd");
+    auto credentials = ai::Credentials("ff98c090685f484caaffada53cdce7b3");
 
     auto params = Parameters("<session id unique for every user>");
 

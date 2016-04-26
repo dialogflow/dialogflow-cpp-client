@@ -3,18 +3,25 @@
 
 #include <string>
 
+#include "apiai/common/Deprecated.h"
+
 namespace ai {
     class Credentials
     {
     private:
         std::string clientAccessToken;
-        std::string subscribtionKey;
+        DEPRECATED std::string subscribtionKey;
     public:
 
-        Credentials(const std::string &clientAccessToken, const std::string &subscribtionKey);
+        DEPRECATED Credentials(const std::string &clientAccessToken, const std::string &subscribtionKey);
+
+        Credentials(const std::string &clientAccessToken);
 
         const std::string &getClientAccessToken() const;
-        const std::string &getSubscribtionKey() const;
+        DEPRECATED const std::string &getSubscribtionKey() const;
+
+        Credentials(const Credentials &credentials);
+        ~Credentials();
     };
 }
 

@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 
     ai::AI::global_init();
 
-    auto credentials = ai::Credentials("09604c7f91ce4cd8a4ede55eb5340b9d", "4c91a8e5-275f-4bf0-8f94-befa78ef92cd");
+    auto credentials = ai::Credentials("09604c7f91ce4cd8a4ede55eb5340b9d");
 
     auto params = Parameters("<session id unique for every user>").setResetContexts(true);
 

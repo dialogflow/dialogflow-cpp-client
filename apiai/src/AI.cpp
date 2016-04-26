@@ -30,7 +30,12 @@ void AI::configure(const Credentials &credentials)
 
 void AI::configure(const std::string &clientAccessToken, const std::string &subscribtionKey)
 {
-    AI::configure(Credentials(clientAccessToken, subscribtionKey));
+    AI::configure(clientAccessToken);
+}
+
+void AI::configure(const std::string &clientAccessToken)
+{
+    AI::configure(Credentials(clientAccessToken));
 }
 
 void AI::setupDefaultParameters(const Parameters& parameters)

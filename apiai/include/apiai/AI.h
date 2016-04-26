@@ -3,6 +3,7 @@
 
 #include "Credentials.h"
 #include "Service.h"
+#include "common/Deprecated.h"
 
 #include <mutex>
 
@@ -26,7 +27,9 @@ namespace ai {
         static void setupDefaultParameters(const query::request::Parameters& parameters);
 
         static void configure(const Credentials &credentials);
-        static void configure(const std::string &clientAccessToken, const std::string &subscribtionKey);
+        DEPRECATED static void configure(const std::string &clientAccessToken, const std::string &subscribtionKey);
+
+        static void configure(const std::string &clientAccessToken);
 
         static Service& sharedService();
     };
