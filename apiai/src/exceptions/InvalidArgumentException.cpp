@@ -7,13 +7,13 @@ using namespace ai;
 
 //}
 
-//const char* InvalidArgumentException::what() const _GLIBCXX_USE_NOEXCEPT
+//const char* InvalidArgumentException::what() const _NOEXCEPT
 //{
 //    return "123123";
 ////    return reason.c_str();
 //}
 
-//InvalidArgumentException::~InvalidArgumentException() _GLIBCXX_USE_NOEXCEPT
+//InvalidArgumentException::~InvalidArgumentException() _NOEXCEPT
 //{
 
 //}

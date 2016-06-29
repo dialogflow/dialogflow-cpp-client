@@ -19,12 +19,12 @@ namespace ai {
 
         }
 
-        virtual const char *what () const _GLIBCXX_USE_NOEXCEPT override
+        virtual const char *what () const _NOEXCEPT override
         {
             return errorDetails.c_str();
         }
 
-        ~ResponseErrorException() _GLIBCXX_USE_NOEXCEPT
+        ~ResponseErrorException() _NOEXCEPT
         {
 
         }

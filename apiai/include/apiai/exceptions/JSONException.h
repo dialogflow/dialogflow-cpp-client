@@ -13,12 +13,12 @@ private:
 public:
     JSONException(const std::string &reason);
 
-    static JSONException MissingKey(const std::string &key) _GLIBCXX_USE_NOEXCEPT;
-    static JSONException TypeMismatch(const std::string &key, const std::string &expected_type) _GLIBCXX_USE_NOEXCEPT;
+    static JSONException MissingKey(const std::string &key) _NOEXCEPT;
+    static JSONException TypeMismatch(const std::string &key, const std::string &expected_type) _NOEXCEPT;
 
-    virtual const char* what() const _GLIBCXX_USE_NOEXCEPT override;
+    virtual const char* what() const _NOEXCEPT override;
 
-    virtual ~JSONException() _GLIBCXX_USE_NOEXCEPT;
+    virtual ~JSONException() _NOEXCEPT;
 };
 
 
