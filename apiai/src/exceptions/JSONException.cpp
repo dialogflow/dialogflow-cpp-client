@@ -9,7 +9,7 @@ JSONException::JSONException(const std::string &reason): reason(reason)
 
 }
 
-JSONException JSONException::MissingKey(const std::string &key) _NOEXCEPT
+JSONException JSONException::MissingKey(const std::string &key) AI_NOEXCEPT
 {
     std::ostringstream reason;
 
@@ -20,7 +20,7 @@ JSONException JSONException::MissingKey(const std::string &key) _NOEXCEPT
     return JSONException(reason.str());
 }
 
-JSONException JSONException::TypeMismatch(const std::string &key, const std::string &expected_type) _NOEXCEPT
+JSONException JSONException::TypeMismatch(const std::string &key, const std::string &expected_type) AI_NOEXCEPT
 {
     std::ostringstream reason;
 
@@ -33,12 +33,12 @@ JSONException JSONException::TypeMismatch(const std::string &key, const std::str
     return JSONException(reason.str());
 }
 
-const char* JSONException::what() const _NOEXCEPT
+const char* JSONException::what() const AI_NOEXCEPT
 {
     return reason.c_str();
 }
 
-JSONException::~JSONException() _NOEXCEPT
+JSONException::~JSONException() AI_NOEXCEPT
 {
 
 }

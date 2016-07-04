@@ -7,13 +7,13 @@ using namespace ai;
 
 //}
 
-//const char* InvalidArgumentException::what() const _NOEXCEPT
+//const char* InvalidArgumentException::what() const AI_NOEXCEPT
 //{
 //    return "123123";
 ////    return reason.c_str();
 //}
 
-//InvalidArgumentException::~InvalidArgumentException() _NOEXCEPT
+//InvalidArgumentException::~InvalidArgumentException() AI_NOEXCEPT
 //{
 
 //}

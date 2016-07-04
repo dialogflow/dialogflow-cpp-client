@@ -5,6 +5,8 @@
 #include <exception>
 #include <stdexcept>
 
+#include "Noexcept.h"
+
 namespace ai {
     class InvalidArgumentException: public std::exception
     {
@@ -13,11 +15,11 @@ namespace ai {
     public:
         InvalidArgumentException(const std::string &reason): reason(reason) {}
 
-        const char *what () const _NOEXCEPT {
+        const char *what () const AI_NOEXCEPT {
             return reason.c_str();
         }
 
-        ~InvalidArgumentException() _NOEXCEPT {}
+        ~InvalidArgumentException() AI_NOEXCEPT {}
     };
 }
 

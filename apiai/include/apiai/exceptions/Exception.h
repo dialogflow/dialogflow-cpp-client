@@ -4,6 +4,8 @@
 #include <string>
 #include <exception>
 
+#include "Noexcept.h"
+
 namespace ai {
 
 class Exception: public std::exception
@@ -12,11 +14,11 @@ private:
     std::string reason;
 public:
 
-    Exception(const char *reason) _NOEXCEPT;
+    Exception(const char *reason) AI_NOEXCEPT;
 
-    virtual const char* what() const _NOEXCEPT override;
+    virtual const char* what() const AI_NOEXCEPT override;
 
-    virtual ~Exception() _NOEXCEPT;
+    virtual ~Exception() AI_NOEXCEPT;
 };
 
 }

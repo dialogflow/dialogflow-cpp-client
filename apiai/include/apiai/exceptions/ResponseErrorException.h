@@ -6,6 +6,8 @@
 #include <string>
 #include <memory>
 
+#include "Noexcept.h"
+
 namespace ai {
     class ResponseErrorException: public std::exception
     {
@@ -19,12 +21,12 @@ namespace ai {
 
         }
 
-        virtual const char *what () const _NOEXCEPT override
+        virtual const char *what () const AI_NOEXCEPT override
         {
             return errorDetails.c_str();
         }
 
-        ~ResponseErrorException() _NOEXCEPT
+        ~ResponseErrorException() AI_NOEXCEPT
         {
 
         }
