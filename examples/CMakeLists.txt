@@ -35,3 +35,6 @@ if(PORTAUDIO_FOUND)
 else(PORTAUDIO_FOUND)
     message(WARNING "Not found PORTAUDIO. Example could not be compiled. It will be passed.")
 endif(PORTAUDIO_FOUND)
+
+find_package (Threads)
+target_link_libraries (voice_request_example ${CMAKE_THREAD_LIBS_INIT})
