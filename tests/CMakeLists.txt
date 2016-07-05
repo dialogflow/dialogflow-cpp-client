@@ -2,6 +2,8 @@ find_package (Boost COMPONENTS unit_test_framework)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../apiai/src)
 
+find_package (Threads)
+
 if (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 
@@ -23,6 +25,8 @@ if (Boost_FOUND)
     endif()
 
     add_test(streams_test streams_test)
+
+    target_link_libraries (streams_test ${CMAKE_THREAD_LIBS_INIT})
 elseif(Boost_FOUND)
     message(WARNING "Not found BOOST with components `unit_test_framework`. Test could not be compiled. It will be passed.")
 endif(Boost_FOUND)
