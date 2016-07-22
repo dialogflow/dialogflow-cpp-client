@@ -2,7 +2,7 @@
 #define EXCEPTION_H
 
 #include <string>
-#include <exception>
+#include <stdexcept>
 
 namespace ai {
 

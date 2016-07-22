@@ -1,8 +1,8 @@
 #ifndef JSONEXCEPTION_H
 #define JSONEXCEPTION_H
 
-#include <exception>
 #include <string>
+#include <stdexcept>
 
 namespace ai {
 

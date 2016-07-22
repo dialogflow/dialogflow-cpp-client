@@ -1,9 +1,9 @@
 #ifndef RESPONSEERROREXCEPTION_H
 #define RESPONSEERROREXCEPTION_H
 
-#include <exception>
-#include <iostream>
 #include <string>
+#include <stdexcept>
+#include <iostream>
 #include <memory>
 
 namespace ai {
