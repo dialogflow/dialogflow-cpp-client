@@ -4,12 +4,9 @@
 
 namespace ai {
 
-JSONException::JSONException(const std::string &reason): reason(reason)
-{
+JSONException::JSONException(const std::string& message): std::runtime_error(message) {}
 
-}
-
-JSONException JSONException::MissingKey(const std::string &key) AI_NOEXCEPT
+JSONException JSONException::MissingKey(const std::string &key)
 {
     std::ostringstream reason;
 
@@ -20,7 +17,7 @@ JSONException JSONException::MissingKey(const std::string &key) AI_NOEXCEPT
     return JSONException(reason.str());
 }
 
-JSONException JSONException::TypeMismatch(const std::string &key, const std::string &expected_type) AI_NOEXCEPT
+JSONException JSONException::TypeMismatch(const std::string &key, const std::string &expected_type)
 {
     std::ostringstream reason;
 
@@ -32,16 +29,5 @@ JSONException JSONException::TypeMismatch(const std::string &key, const std::str
 
     return JSONException(reason.str());
 }
-
-const char* JSONException::what() const AI_NOEXCEPT
-{
-    return reason.c_str();
-}
-
-JSONException::~JSONException() AI_NOEXCEPT
-{
-
-}
-
 
 }

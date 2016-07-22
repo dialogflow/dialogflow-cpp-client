@@ -5,21 +5,11 @@
 #include <exception>
 #include <stdexcept>
 
-#include "Noexcept.h"
-
 namespace ai {
-    class InvalidArgumentException: public std::exception
+    class InvalidArgumentException: public std::runtime_error
     {
-    private:
-        std::string reason;
     public:
-        InvalidArgumentException(const std::string &reason): reason(reason) {}
-
-        const char *what () const AI_NOEXCEPT {
-            return reason.c_str();
-        }
-
-        ~InvalidArgumentException() AI_NOEXCEPT {}
+        explicit InvalidArgumentException(const std::string& message);
     };
 }
 

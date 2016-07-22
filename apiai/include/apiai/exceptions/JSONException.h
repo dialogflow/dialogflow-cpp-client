@@ -4,23 +4,15 @@
 #include <exception>
 #include <string>
 
-#include "Noexcept.h"
-
 namespace ai {
 
-class JSONException: public std::exception
+class JSONException: public std::runtime_error
 {
-private:
-    std::string reason;
 public:
-    JSONException(const std::string &reason);
+    explicit JSONException(const std::string& message);
 
-    static JSONException MissingKey(const std::string &key) AI_NOEXCEPT;
-    static JSONException TypeMismatch(const std::string &key, const std::string &expected_type) AI_NOEXCEPT;
-
-    virtual const char* what() const AI_NOEXCEPT override;
-
-    virtual ~JSONException() AI_NOEXCEPT;
+    static JSONException MissingKey(const std::string &key);
+    static JSONException TypeMismatch(const std::string &key, const std::string &expected_type);
 };
 
 

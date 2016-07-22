@@ -4,21 +4,12 @@
 #include <string>
 #include <exception>
 
-#include "Noexcept.h"
-
 namespace ai {
 
-class Exception: public std::exception
+class Exception: public std::runtime_error
 {
-private:
-    std::string reason;
 public:
-
-    Exception(const char *reason) AI_NOEXCEPT;
-
-    virtual const char* what() const AI_NOEXCEPT override;
-
-    virtual ~Exception() AI_NOEXCEPT;
+    explicit Exception(const std::string& message);
 };
 
 }
