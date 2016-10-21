@@ -2,6 +2,7 @@
 
 #include <apiai/exceptions/Exception.h>
 #include <apiai/exceptions/InvalidArgumentException.h>
+#include <iostream>
 
 using namespace std;
 using namespace ai;
@@ -102,11 +103,31 @@ string RequestConnection::RequestConnectionImpl::performConnection()
 
     curl_slist_free_all(curl_headers);
 
-    if (perform_result != CURLE_OK) {
-        throw ai::InvalidArgumentException("Failure perform request");
+    long response_status_code = 0;
+    if (CURLE_OK == curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_status_code)) {
+        cout << "response_status_code" << ": " << response_status_code << endl;
     }
 
-    return response;
+    double download_size = 0;
+    if (CURLE_OK == curl_easy_getinfo(curl, CURLINFO_SIZE_DOWNLOAD, &download_size)) {
+        cout << "download_size" << ": " << download_size << endl;
+    }
+
+    if (CURLE_OK == perform_result) {
+        return response;
+    } else if (
+               CURLE_SEND_ERROR == perform_result &&
+               response_status_code >= 200 && response_status_code <= 299 &&
+               download_size == response.size()
+               ) {
+        return response;
+    } else {
+        stringstream stream;
+        stream << "Failure perform request: ";
+        stream << curl_easy_strerror(perform_result);
+
+        throw ai::InvalidArgumentException(stream.str());
+    }
 }
 
 RequestConnection::RequestConnectionImpl::~RequestConnectionImpl()
