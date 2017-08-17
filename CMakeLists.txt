@@ -73,9 +73,9 @@ IF(APIAI_WITH_PKGCONFIG_SUPPORT)
                 DESTINATION "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/pkgconfig")
 ENDIF()
 
-include_directories(thirdparty/cJSON)
+include_directories(third_party/cJSON)
 
-add_library(cJson STATIC thirdparty/cJSON/cJSON.c)
+add_library(cJson STATIC third_party/cJSON/cJSON.c)
 
 add_subdirectory(indent_stream)
 
