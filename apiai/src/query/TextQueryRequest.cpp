@@ -47,6 +47,7 @@ Response TextQueryRequest::perform() {
 
     cJSON_AddItemToObject(root, "query", serialize_object->getQuery_element());
     cJSON_AddItemToObject(root, "lang", cJSON_CreateString(this->getLanguage().c_str()));
+    cJSON_AddItemToObject(root, "sessionId", cJSON_CreateString(this->getParameters().getSessionId().c_str()));
 
     auto json_contexts = cJSON_CreateArray();
     for (auto& context: this->getParameters().getContexts()) {
